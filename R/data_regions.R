@@ -28,5 +28,5 @@
 #' }
 #' }
 #'
-#' @examples regions <- places::regions
+#' @examples regions
 "regions"
