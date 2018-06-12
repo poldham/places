@@ -1,0 +1,188 @@
+---
+title: "Untitled"
+author: "Paul Oldham"
+date: "03/09/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+library(tidyverse)
+```
+
+
+## Introduction
+
+The `places` package provides access to the daily data files from the [geonames data dump](http://download.geonames.org/export/dump/). The aim of the package is to make the geonames dump consisting of over 11 million place names available for large scale mapping or text mining projects involving multiple countries or world regions. 
+
+`places` is intended to complement the [rOpenSci `geonames()` package](https://github.com/ropensci/geonames) by Barry Rowlingson. The geonames package provides access to the geonames API and is recommended for smaller scale projects. The `places` package is better suited for larger scale projects involving text mining and mapping place names from literature or other projects involving federating different kinds of data with geoinformation at scale. The package also adds additional tables that make it easier to select subsets of data for geographic regions or subregions or economic status using United Nations and World Bank datasets.
+
+The purpose of this walkthrough is to take you through how to access the data, what is available, and decisions on issues such as tidying the data. 
+
+## The geonames data dump
+
+The geonames dump is a set of daily dump files available from the export home page [http://download.geonames.org/export/dump/](http://download.geonames.org/export/dump/). This page provides .zip files for individual country data along with other data files (such as alternate names) in text files and links to other directories. The mix of files makes it messy to work with.  
+
+```{r}
+knitr::include_graphics("inst/images/geonames_part1.png")
+```
+
+```{r}
+knitr::include_graphics("inst/images/geonames_part2.png")
+```
+
+The `places_table()` function downloads and parses the page into a tibble to make it easier to work with. 
+
+```{r}
+library(places)
+places_table()
+```
+
+The original [table](http://download.geonames.org/export/dump/) contained the following columns:
+
+- name
+- last_modified, 
+- size
+- description (empty)
+
+To make the table easier to work with `places_table()` separates out the files into `iso` (for country files) and `other` for other files. `File_name`, `file_type` and `url` for file paths are added. country names and iso and iso3 country codes are also added to aid lookup.
+
+## Looking Up Countries
+
+The geonames data mainly works on two letter country codes (variously called iso and iso2c). Country names can be expressed in all kinds of different ways. If you don't know the two letter country code is you can look it up with `places_lookup()`. 
+
+```{r}
+places::places_lookup("Kenya")
+```
+
+We can also lookup ambiguous names:
+
+```{r}
+places::places_lookup(c("Peoples republic of china", "Viet Nam", "Vietnam", "Lao", "Laos"))
+```
+
+Behind the scences the name matching is handled by the [countrycode](https://github.com/vincentarelbundock/countrycode) package by Vincent Arul Bundock and collaborators. Country names can be expressed in all kinds of different ways and the countrycode package does a good job of recognising them. At present the places package only implements country names in English.
+
+We use the countrycode package for lookup because of its flexibility. However, Geonames produces its own [countryinfo table](http://download.geonames.org/export/dump/countryInfo.txt) that can be imported as follows.
+
+```{r}
+countryinfo <- places::places_countryinfo()
+countryinfo
+```
+
+The advantage of this table is that it includes information such as the capital city, the area in square kilometes, the population of the capital city, continent and so on. Some of this data is included in the `regions` table (below). However, for general lookup of country names `places_lookup()` will be more flexible and forgiving. 
+
+## Individual Country data
+
+You can import the latest data for an individual country using `places_import()`. The main focus here is on the use of iso two letter country codes. A download date column is added by default to assist with keeping track of the file history. 
+
+```{r}
+KE <- places_import(code = "KE")
+```
+
+```{r}
+kenya <- places_import(country = "Kenya")
+```
+
+
+
+Note that `places_import()` is not vectorised and only handles one country file at a time. For multiple countries or regions it is easier to work with the allcountries table. 
+
+### All Countries
+
+Geonames produces a daily file containing the data for all countries. The allcountries daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed. You can import the latest daily file with: 
+
+```{r eval=FALSE}
+places_import(country = "all")
+```
+
+If you run into problems for whatever reason a highly compressed archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as `allcountries`. This file is intended to be used as a stable reference set.
+
+```{r eval=FALSE}
+places::places()
+```
+
+### Regions, Sub-Regions, intermediate regions and continents
+
+To aid with multicountry analysis the package includes two combined add on tables. 
+
+1. The [United Nations regions (M49)](https://unstats.un.org/unsd/methodology/m49/overview/) from the United Nations Statistical Division
+2. World Bank regional divisions (through the World Development Indicators (WDI) package). 
+
+You can call these table directly:
+
+```{r}
+unregions
+```
+
+For the World Bank WDI indicators
+
+```{r}
+wdicountry
+```
+
+Additional regional information is available from the countrycode package and may be incorporated into places in future.
+
+The two regional tables are combined with selected fields from the geonames package.
+
+The regions file can be called as follows
+
+```{r}
+places::regions
+```
+
+
+To join the regions table with a set of results
+
+```{r eval=FALSE}
+df <- left_join(df, regions, by = "iso")
+```
+
+### Feature Codes
+
+Geonames uses [feature codes](http://www.geonames.org/export/codes.html) to describe the georeferenced data. Feature codes are divided between classes and codes. The classes are as follows:
+
+- A Administrative Boundary Features
+- H Hydrographic Features
+- L Area Features
+- P Populated Place Features
+- R Road / Railroad Features
+- S Spot Features
+- T Hypsographic Features
+- U Undersea Features
+- V Vegetation Features
+
+An example of a corresponding code is:
+
+H.ANCH anchorage
+R.OILP oil pipeline
+
+To view the featurecodes use:
+
+```{r}
+featurecodes
+```
+
+Note that the original featurecode table concatenated the class and feature code, but in the country and allcountries files they are separated into `feature_class` and `feature_code`. To make them consistent for joining, the `feature_class` and `feature_code` in the country data are united into a new field called `feature_full` on import to enable joining with `featurecodes` table (note that to avoid duplication of columns the orifiginal `feature_class` and `feature_code` fields are dropped at import).
+
+```{r echo=FALSE}
+load("data/KE.rda")
+```
+
+
+```{r eval=FALSE}
+KE <- left_join(KE, featurecodes, by = "feature_full")
+KE %>% select(feature_full, feature_name, name, longitude, latitude)
+```
+
+The ``featurecodes` table, includes the feature code table divided into four columns that were parsed from the original file. 
+
+- feature_full (for joining)
+- feature name (the short description)
+- feature detail (a longer description)
+- feature_clean (basic cleaning on the feature name to remove plurals such as forest(s))
+- MULTI A logical field indicating whether the feature_clean fields contains multiword phrases (TRUE)
+
+You may wish to join this table to the main table or to investigate the codes and filter accordingly. 
+
+

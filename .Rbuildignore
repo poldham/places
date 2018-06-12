@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+ignore
+^README.Rmd
+^data-raw
+^README_cache
+^debug\.log
