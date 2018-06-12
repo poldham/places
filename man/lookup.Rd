@@ -50,4 +50,4 @@ A lookup table
 \examples{
 lookup
 }
-\keyword{datasets}
+\keyword{internal}

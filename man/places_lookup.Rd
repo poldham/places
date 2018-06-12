@@ -2,7 +2,7 @@
 % Please edit documentation in R/places_lookup.R
 \name{places_lookup}
 \alias{places_lookup}
-\title{Lookup Countries to Import}
+\title{Helper to look up Country Codes to Import}
 \usage{
 places_lookup(name = NULL, type = "country")
 }

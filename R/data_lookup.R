@@ -37,5 +37,6 @@
 #'  \item{\code{un_developed_or_developing_countries}}{a character vector}
 #'}
 #'}
+#' @keywords internal
 #' @examples lookup
 "lookup"

@@ -199,12 +199,3 @@ The `featurecodes` table, includes the feature code table divided into four colu
 
 You may wish to join this table to the main table or to investigate the codes and filter accordingly. 
 
-### Create A Map
-
-```{r}
-library(ggmap)
-kenya_features <- dplyr::left_join(KE, places::featurecodes, by = "feature_full") %>% 
-  dplyr::filter(feature_clean == "park headquarters") %>% 
-  View()
-```
-

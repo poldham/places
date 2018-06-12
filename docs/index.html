@@ -105,13 +105,13 @@
 <div id="looking-up-countries" class="section level2">
 <h2 class="hasAnchor">
 <a href="#looking-up-countries" class="anchor"></a>Looking Up Countries</h2>
-<p>The geonames data mainly works on two letter country codes (variously called iso and iso2c). Country names can be expressed in all kinds of different ways. If you don’t know the two letter country code is you can look it up with <code><a href="reference/places_lookup.html">places_lookup()</a></code>.</p>
+<p>The geonames data mainly works on two letter country codes (variously called iso and iso2c). Country names can be expressed in all kinds of different ways. If you don’t know the two letter country code you can look it up with <code><a href="reference/places_lookup.html">places_lookup()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="st">"Kenya"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   Kenya
 ##   &lt;chr&gt;
 ## 1 KE</code></pre>
-<p>We can also lookup ambiguous names:</p>
+<p>We can also look up ambiguous names:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="kw">c</span>(<span class="st">"Peoples republic of china"</span>, <span class="st">"Viet Nam"</span>, <span class="st">"Vietnam"</span>, <span class="st">"Lao"</span>, <span class="st">"Laos"</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   `Peoples Republic Of China` `Viet Nam` Vietnam Lao   Laos 
@@ -138,7 +138,7 @@
 ## #   tld &lt;chr&gt;, currencycode &lt;chr&gt;, currencyname &lt;chr&gt;, phone &lt;chr&gt;,
 ## #   postal_code_format &lt;chr&gt;, postal_code_regex &lt;chr&gt;, languages &lt;chr&gt;,
 ## #   geonameid &lt;int&gt;, neighbours &lt;chr&gt;, equivalentfipscode &lt;chr&gt;</code></pre>
-<p>The advantage of this table is that it includes information such as the capital city, the area in square kilometres, the population of the capital city, continent and so on. Some of this data is included in the <code>regions</code> table (below). However, for general lookup of country names <code><a href="reference/places_lookup.html">places_lookup()</a></code> will be more flexible and forgiving.</p>
+<p>The advantage of this table is that it includes information such as the capital city, the area in square kilometres, the population of the capital city, continent and so on. Some of this data included in the <code>regions</code> table (below). However, for general lookup of country names <code><a href="reference/places_lookup.html">places_lookup()</a></code> will be more flexible and forgiving.</p>
 </div>
 <div id="individual-country-data" class="section level2">
 <h2 class="hasAnchor">
@@ -169,7 +169,7 @@
 <div id="all-countries" class="section level3">
 <h3 class="hasAnchor">
 <a href="#all-countries" class="anchor"></a>All Countries</h3>
-<p>Geonames produces a daily file containing the data for all countries. The allcountries daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed. You can import the latest daily file with:</p>
+<p>Geonames produces a daily file containing the data for all countries. The <code>allcountries</code> daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed. You can import the latest daily file with:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">country =</span> <span class="st">"all"</span>)</a></code></pre></div>
 <p>If you run into problems for whatever reason an archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as <code>allcountries</code>. This file is intended to be used as a stable reference set.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_all">places_all</a></span>()</a></code></pre></div>
@@ -221,9 +221,9 @@
 ## 10 ARG   Latin America &amp; Caribbean  Upper middle income
 ## # ... with 294 more rows</code></pre>
 <p>Additional regional information is available from the countrycode package and may be incorporated into places in future.</p>
-<p>The two regional tables are combined with selected fields from the geonames package.</p>
-<p>The regions file can be called as follows</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">places<span class="op">::</span>regions</a></code></pre></div>
+<p>The two regional tables are combined with selected fields from the geonames countryinfo table.</p>
+<p>The regions file can be called as follows:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">regions</a></code></pre></div>
 <pre><code>## # A tibble: 249 x 22
 ##    un_global_code un_global_name un_region_code un_region_name
 ##             &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;         
@@ -246,8 +246,8 @@
 ## #   un_developed_or_developing_countries &lt;chr&gt;, iso &lt;chr&gt;,
 ## #   iso_numeric &lt;chr&gt;, fips &lt;chr&gt;, country &lt;chr&gt;, geonameid &lt;int&gt;,
 ## #   wb_region &lt;chr&gt;, wb_income &lt;chr&gt;</code></pre>
-<p>To join the regions table with a set of results</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">left_join</span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
+<p>To join the regions table with a set of results try:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">df &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
 </div>
 <div id="feature-codes" class="section level3">
 <h3 class="hasAnchor">
@@ -286,11 +286,10 @@
 ## 10 A.ADM5H      A             ADM5H        historical fi… a former fifth-…
 ## # ... with 661 more rows, and 2 more variables: feature_clean &lt;chr&gt;,
 ## #   multi &lt;lgl&gt;</code></pre>
-<p>Note that the original featurecode table concatenated the class and feature code, but in the country and allcountries files they are separated into <code>feature_class</code> and <code>feature_code</code>. To make them consistent for joining, the <code>feature_class</code> and <code>feature_code</code> in the country data are united into a new field called <code>feature_full</code> on import to enable joining with <code>featurecodes</code> table (note that to avoid duplication of columns the original <code>feature_class</code> and <code>feature_code</code> fields are dropped at import).</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw">left_join</span>(KE, places<span class="op">::</span>featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
+<p>Note that the original featurecode table concatenated the class and feature code, but in the actual country and allcountries files they are separated into <code>feature_class</code> and <code>feature_code</code>. This makes joining awkward. To solve this a new field called <code>feature_full</code> is created at import while dropping the feature_class and feature code fields to prevent duplicates when joining. That is simpler than it sounds.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">KE &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(KE, places<span class="op">::</span>featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
 <a class="sourceLine" id="cb24-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">KE <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
+<a class="sourceLine" id="cb24-3" data-line-number="3">KE <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
 <pre><code>## # A tibble: 29,598 x 5
 ##    feature_full feature_name        name             longitude latitude
 ##    &lt;chr&gt;        &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;   
@@ -305,7 +304,7 @@
 ##  9 T.MT         mountain            Oldoinyo Orok    36.75141  -2.49465
 ## 10 H.STMI       intermittent stream Namanga          37.01915  -2.6785 
 ## # ... with 29,588 more rows</code></pre>
-<p>The `<code>featurecodes</code> table, includes the feature code table divided into four columns that were parsed from the original file.</p>
+<p>The <code>featurecodes</code> table, includes the feature code table divided into four columns that were parsed from the original file.</p>
 <ul>
 <li>feature_full (for joining)</li>
 <li>feature name (the short description)</li>

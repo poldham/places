@@ -1,4 +1,4 @@
-#' @title Lookup Countries to Import
+#' @title Helper to look up Country Codes to Import
 #' @description A helper function to navigate two letter country codes. The geonames dump file \code{\link{places_table}} uses two letter country codes (iso2c). The \code{\link{places_table}} includes optional country and region names. If you prefer to look up country codes then use this helper. The function wraps the \code{\link[countrycode]{countrycode}} lookup function for matching single country names or vectors to two letter country codes. Country and region names are not case sensitive.
 #' @param name A country, region or subregion name.
 #' @param type Either "country", "region", "subregion" or "intermediate"
