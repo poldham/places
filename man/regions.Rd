@@ -40,6 +40,6 @@ data.frame
 United Nations Statistical Division and World Bank Development Indicator regions
 }
 \examples{
-regions <- places::regions
+regions
 }
 \keyword{datasets}
