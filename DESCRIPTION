@@ -3,6 +3,7 @@ Title: Access the Geonames Data Export Service
 Version: 0.0.0.9000
 Authors@R: person("Paul", "Oldham", email = "poldham@mac.com", role = c("aut", "cre"))
 Description: Download country files containing place, administrative, feature names and coordinates from the Geonames data export service. Download individual files, all country data or an archive of all country data with over 11 million names and coordinates. 
+BugReports: https://github.com/wipo-analytics/places/issues
 Depends: R (>= 3.4.0)
 License: MIT + file LICENSE
 Encoding: UTF-8

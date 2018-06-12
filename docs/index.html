@@ -65,19 +65,15 @@
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>The <code>places</code> package provides access to the daily data files from the <a href="http://download.geonames.org/export/dump/">geonames data dump</a>. The aim of the package is to make the geonames dump consisting of over 11 million place names available for large scale mapping or text mining projects involving multiple countries or world regions.</p>
 <p><code>places</code> is intended to complement the <a href="https://github.com/ropensci/geonames">rOpenSci <code>geonames()</code> package</a> by Barry Rowlingson. The geonames package provides access to the geonames API and is recommended for smaller scale projects. The <code>places</code> package is better suited for larger scale projects involving text mining and mapping place names from literature or other projects involving federating different kinds of data with geoinformation at scale. The package also adds additional tables that make it easier to select subsets of data for geographic regions or subregions or economic status using United Nations and World Bank datasets.</p>
-<p>The purpose of this walkthrough is to take you through how to access the data, what is available, and decisions on issues such as tidying the data.</p>
+<p>The purpose of this walk through is to take you through how to access the data, what is available, and decisions on issues such as tidying the data.</p>
 </div>
 <div id="the-geonames-data-dump" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-geonames-data-dump" class="anchor"></a>The geonames data dump</h2>
 <p>The geonames dump is a set of daily dump files available from the export home page <a href="http://download.geonames.org/export/dump/" class="uri">http://download.geonames.org/export/dump/</a>. This page provides .zip files for individual country data along with other data files (such as alternate names) in text files and links to other directories. The mix of files makes it messy to work with.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/include_graphics">include_graphics</a></span>(<span class="st">"inst/images/geonames_part1.png"</span>)</a></code></pre></div>
-<p><img src="inst/images/geonames_part1.png"><!-- --></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/include_graphics">include_graphics</a></span>(<span class="st">"inst/images/geonames_part2.png"</span>)</a></code></pre></div>
-<p><img src="inst/images/geonames_part2.png" width="448"></p>
 <p>The <code><a href="reference/places_table.html">places_table()</a></code> function downloads and parses the page into a tibble to make it easier to work with.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(places)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/places_table.html">places_table</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(places)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="reference/places_table.html">places_table</a></span>()</a></code></pre></div>
 <pre><code>## # A tibble: 283 x 9
 ##    name   last_modified size  description file_name file_type url    iso  
 ##    &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
@@ -105,21 +101,21 @@
 <h2 class="hasAnchor">
 <a href="#looking-up-countries" class="anchor"></a>Looking Up Countries</h2>
 <p>The geonames data mainly works on two letter country codes (variously called iso and iso2c). Country names can be expressed in all kinds of different ways. If you don’t know the two letter country code is you can look it up with <code><a href="reference/places_lookup.html">places_lookup()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="st">"Kenya"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="st">"Kenya"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   Kenya
 ##   &lt;chr&gt;
 ## 1 KE</code></pre>
 <p>We can also lookup ambiguous names:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="kw">c</span>(<span class="st">"Peoples republic of china"</span>, <span class="st">"Viet Nam"</span>, <span class="st">"Vietnam"</span>, <span class="st">"Lao"</span>, <span class="st">"Laos"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="kw">c</span>(<span class="st">"Peoples republic of china"</span>, <span class="st">"Viet Nam"</span>, <span class="st">"Vietnam"</span>, <span class="st">"Lao"</span>, <span class="st">"Laos"</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   `Peoples Republic Of China` `Viet Nam` Vietnam Lao   Laos 
 ##   &lt;chr&gt;                       &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
 ## 1 CN                          VN         VN      LA    LA</code></pre>
-<p>Behind the scences the name matching is handled by the <a href="https://github.com/vincentarelbundock/countrycode">countrycode</a> package by Vincent Arul Bundock and collaborators. Country names can be expressed in all kinds of different ways and the countrycode package does a good job of recognising them. At present the places package only implements country names in English.</p>
+<p>Behind the scenes the name matching is handled by the <a href="https://github.com/vincentarelbundock/countrycode">countrycode</a> package by Vincent Arul Bundock and collaborators. Country names can be expressed in all kinds of different ways and the countrycode package does a good job of recognising them. At present the places package only implements country names in English.</p>
 <p>We use the countrycode package for lookup because of its flexibility. However, Geonames produces its own <a href="http://download.geonames.org/export/dump/countryInfo.txt">countryinfo table</a> that can be imported as follows.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">countryinfo &lt;-<span class="st"> </span>places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_countryinfo">places_countryinfo</a></span>()</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">countryinfo</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">countryinfo &lt;-<span class="st"> </span>places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_countryinfo">places_countryinfo</a></span>()</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">countryinfo</a></code></pre></div>
 <pre><code>## # A tibble: 252 x 19
 ##    iso   iso3  isonumeric fips  country   capital area_in_sq_km population
 ##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;      &lt;int&gt;
@@ -137,24 +133,41 @@
 ## #   tld &lt;chr&gt;, currencycode &lt;chr&gt;, currencyname &lt;chr&gt;, phone &lt;chr&gt;,
 ## #   postal_code_format &lt;chr&gt;, postal_code_regex &lt;chr&gt;, languages &lt;chr&gt;,
 ## #   geonameid &lt;int&gt;, neighbours &lt;chr&gt;, equivalentfipscode &lt;chr&gt;</code></pre>
-<p>The advantage of this table is that it includes information such as the capital city, the area in square kilometes, the population of the capital city, continent and so on. Some of this data is included in the <code>regions</code> table (below). However, for general lookup of country names <code><a href="reference/places_lookup.html">places_lookup()</a></code> will be more flexible and forgiving.</p>
+<p>The advantage of this table is that it includes information such as the capital city, the area in square kilometres, the population of the capital city, continent and so on. Some of this data is included in the <code>regions</code> table (below). However, for general lookup of country names <code><a href="reference/places_lookup.html">places_lookup()</a></code> will be more flexible and forgiving.</p>
 </div>
 <div id="individual-country-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#individual-country-data" class="anchor"></a>Individual Country data</h2>
 <p>You can import the latest data for an individual country using <code><a href="reference/places_import.html">places_import()</a></code>. The main focus here is on the use of iso two letter country codes. A download date column is added by default to assist with keeping track of the file history.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">code =</span> <span class="st">"KE"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">code =</span> <span class="st">"KE"</span>)</a></code></pre></div>
 <pre><code>## [1] "http://download.geonames.org/export/dump/KE.zip"</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">kenya &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">country =</span> <span class="st">"Kenya"</span>)</a></code></pre></div>
-<pre><code>## [1] "http://download.geonames.org/export/dump/KE.zip"</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">KE</a></code></pre></div>
+<pre><code>## # A tibble: 29,598 x 19
+##    geonameid name   asciiname  alternatenames           latitude longitude
+##    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;                    &lt;chr&gt;    &lt;chr&gt;    
+##  1 54121     Mata … Mata Arba  &lt;NA&gt;                     -0.67472 40.97667 
+##  2 55628     Kolbi… Kolbiyow   Kolbiyow,Lac Chinoti,La… -1.25055 41.49477 
+##  3 58869     Bur G… Bur Gause  Bur Gause,Bur Gavse,Bur… 3.77299  41.75744 
+##  4 60856     Did S… Did Songa  Did Songa                -1.2     41.26667 
+##  5 149213    Umba   Umba       Mto Umba,Umba,Umba River -4.66354 39.22688 
+##  6 149529    Musan… Musangairo Musangairo,Tarakea,Tere… -2.96965 37.6457  
+##  7 150092    Seren… Serengeti… Serengeti Plains,Sereng… -3.42386 37.92541 
+##  8 150177    Schlo… Schlobach  Schlobach                -3.35848 37.66424 
+##  9 150859    Oldoi… Oldoinyo … Ol Doinyo Orok,Oldoinyo… -2.49465 36.75141 
+## 10 151987    Naman… Namanga    Namanga                  -2.6785  37.01915 
+## # ... with 29,588 more rows, and 13 more variables: feature_full &lt;chr&gt;,
+## #   iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;, admin2_code &lt;chr&gt;,
+## #   admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;, population &lt;chr&gt;,
+## #   elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;, modification_date &lt;date&gt;,
+## #   download_date &lt;date&gt;</code></pre>
 <p>Note that <code><a href="reference/places_import.html">places_import()</a></code> is not vectorised and only handles one country file at a time. For multiple countries or regions it is easier to work with the allcountries table.</p>
 <div id="all-countries" class="section level3">
 <h3 class="hasAnchor">
 <a href="#all-countries" class="anchor"></a>All Countries</h3>
 <p>Geonames produces a daily file containing the data for all countries. The allcountries daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed. You can import the latest daily file with:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">country =</span> <span class="st">"all"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">country =</span> <span class="st">"all"</span>)</a></code></pre></div>
 <p>If you run into problems for whatever reason a highly compressed archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as <code>allcountries</code>. This file is intended to be used as a stable reference set.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places">places</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places">places</a></span>()</a></code></pre></div>
 </div>
 <div id="regions-sub-regions-intermediate-regions-and-continents" class="section level3">
 <h3 class="hasAnchor">
@@ -165,7 +178,7 @@
 <li>World Bank regional divisions (through the World Development Indicators (WDI) package).</li>
 </ol>
 <p>You can call these table directly:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">unregions</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">unregions</a></code></pre></div>
 <pre><code>## # A tibble: 249 x 15
 ##    un_global_code un_global_name un_region_code un_region_name
 ##             &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;         
@@ -187,316 +200,25 @@
 ## #   un_small_island_developing_states_sids &lt;int&gt;,
 ## #   un_developed_or_developing_countries &lt;chr&gt;</code></pre>
 <p>For the World Bank WDI indicators</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">wdicountry</a></code></pre></div>
-<pre><code>##     iso3                  wb_region           wb_income
-## 1    ABW Latin America &amp; Caribbean          High income
-## 2    AFG                 South Asia          Low income
-## 3    AFR                 Aggregates          Aggregates
-## 4    AGO        Sub-Saharan Africa  Lower middle income
-## 5    ALB      Europe &amp; Central Asia Upper middle income
-## 6    AND      Europe &amp; Central Asia         High income
-## 7    ANR                 Aggregates          Aggregates
-## 8    ARB                 Aggregates          Aggregates
-## 9    ARE Middle East &amp; North Africa         High income
-## 10   ARG Latin America &amp; Caribbean  Upper middle income
-## 11   ARM      Europe &amp; Central Asia Lower middle income
-## 12   ASM        East Asia &amp; Pacific Upper middle income
-## 13   ATG Latin America &amp; Caribbean          High income
-## 14   AUS        East Asia &amp; Pacific         High income
-## 15   AUT      Europe &amp; Central Asia         High income
-## 16   AZE      Europe &amp; Central Asia Upper middle income
-## 17   BDI        Sub-Saharan Africa           Low income
-## 18   BEA                 Aggregates          Aggregates
-## 19   BEC                 Aggregates          Aggregates
-## 20   BEL      Europe &amp; Central Asia         High income
-## 21   BEN        Sub-Saharan Africa           Low income
-## 22   BFA        Sub-Saharan Africa           Low income
-## 23   BGD                 South Asia Lower middle income
-## 24   BGR      Europe &amp; Central Asia Upper middle income
-## 25   BHI                 Aggregates          Aggregates
-## 26   BHR Middle East &amp; North Africa         High income
-## 27   BHS Latin America &amp; Caribbean          High income
-## 28   BIH      Europe &amp; Central Asia Upper middle income
-## 29   BLA                 Aggregates          Aggregates
-## 30   BLR      Europe &amp; Central Asia Upper middle income
-## 31   BLZ Latin America &amp; Caribbean  Upper middle income
-## 32   BMN                 Aggregates          Aggregates
-## 33   BMU              North America         High income
-## 34   BOL Latin America &amp; Caribbean  Lower middle income
-## 35   BRA Latin America &amp; Caribbean  Upper middle income
-## 36   BRB Latin America &amp; Caribbean          High income
-## 37   BRN        East Asia &amp; Pacific         High income
-## 38   BSS                 Aggregates          Aggregates
-## 39   BTN                 South Asia Lower middle income
-## 40   BWA        Sub-Saharan Africa  Upper middle income
-## 41   CAA                 Aggregates          Aggregates
-## 42   CAF        Sub-Saharan Africa           Low income
-## 43   CAN              North America         High income
-## 44   CEA                 Aggregates          Aggregates
-## 45   CEB                 Aggregates          Aggregates
-## 46   CEU                 Aggregates          Aggregates
-## 47   CHE      Europe &amp; Central Asia         High income
-## 48   CHI      Europe &amp; Central Asia         High income
-## 49   CHL Latin America &amp; Caribbean          High income
-## 50   CHN        East Asia &amp; Pacific Upper middle income
-## 51   CIV        Sub-Saharan Africa  Lower middle income
-## 52   CLA                 Aggregates          Aggregates
-## 53   CME                 Aggregates          Aggregates
-## 54   CMR        Sub-Saharan Africa  Lower middle income
-## 55   COD        Sub-Saharan Africa           Low income
-## 56   COG        Sub-Saharan Africa  Lower middle income
-## 57   COL Latin America &amp; Caribbean  Upper middle income
-## 58   COM        Sub-Saharan Africa           Low income
-## 59   CPV        Sub-Saharan Africa  Lower middle income
-## 60   CRI Latin America &amp; Caribbean  Upper middle income
-## 61   CSA                 Aggregates          Aggregates
-## 62   CSS                 Aggregates          Aggregates
-## 63   CUB Latin America &amp; Caribbean  Upper middle income
-## 64   CUW Latin America &amp; Caribbean          High income
-## 65   CYM Latin America &amp; Caribbean          High income
-## 66   CYP      Europe &amp; Central Asia         High income
-## 67   CZE      Europe &amp; Central Asia         High income
-## 68   DEA                 Aggregates          Aggregates
-## 69   DEC                 Aggregates          Aggregates
-## 70   DEU      Europe &amp; Central Asia         High income
-## 71   DFS                 Aggregates          Aggregates
-## 72   DJI Middle East &amp; North Africa Lower middle income
-## 73   DLA                 Aggregates          Aggregates
-## 74   DMA Latin America &amp; Caribbean  Upper middle income
-## 75   DMN                 Aggregates          Aggregates
-## 76   DNF                 Aggregates          Aggregates
-## 77   DNK      Europe &amp; Central Asia         High income
-## 78   DNS                 Aggregates          Aggregates
-## 79   DOM Latin America &amp; Caribbean  Upper middle income
-## 80   DSA                 Aggregates          Aggregates
-## 81   DSF                 Aggregates          Aggregates
-## 82   DSS                 Aggregates          Aggregates
-## 83   DXS                 Aggregates          Aggregates
-## 84   DZA Middle East &amp; North Africa Upper middle income
-## 85   EAP                 Aggregates          Aggregates
-## 86   EAR                 Aggregates          Aggregates
-## 87   EAS                 Aggregates          Aggregates
-## 88   ECA                 Aggregates          Aggregates
-## 89   ECS                 Aggregates          Aggregates
-## 90   ECU Latin America &amp; Caribbean  Upper middle income
-## 91   EGY Middle East &amp; North Africa Lower middle income
-## 92   EMU                 Aggregates          Aggregates
-## 93   ERI        Sub-Saharan Africa           Low income
-## 94   ESP      Europe &amp; Central Asia         High income
-## 95   EST      Europe &amp; Central Asia         High income
-## 96   ETH        Sub-Saharan Africa           Low income
-## 97   EUU                 Aggregates          Aggregates
-## 98   FCS                 Aggregates          Aggregates
-## 99   FIN      Europe &amp; Central Asia         High income
-## 100  FJI        East Asia &amp; Pacific Upper middle income
-## 101  FRA      Europe &amp; Central Asia         High income
-## 102  FRO      Europe &amp; Central Asia         High income
-## 103  FSM        East Asia &amp; Pacific Lower middle income
-## 104  FXS                 Aggregates          Aggregates
-## 105  GAB        Sub-Saharan Africa  Upper middle income
-## 106  GBR      Europe &amp; Central Asia         High income
-## 107  GEO      Europe &amp; Central Asia Lower middle income
-## 108  GHA        Sub-Saharan Africa  Lower middle income
-## 109  GIB      Europe &amp; Central Asia         High income
-## 110  GIN        Sub-Saharan Africa           Low income
-## 111  GMB        Sub-Saharan Africa           Low income
-## 112  GNB        Sub-Saharan Africa           Low income
-## 113  GNQ        Sub-Saharan Africa  Upper middle income
-## 114  GRC      Europe &amp; Central Asia         High income
-## 115  GRD Latin America &amp; Caribbean  Upper middle income
-## 116  GRL      Europe &amp; Central Asia         High income
-## 117  GTM Latin America &amp; Caribbean  Lower middle income
-## 118  GUM        East Asia &amp; Pacific         High income
-## 119  GUY Latin America &amp; Caribbean  Upper middle income
-## 120  HIC                 Aggregates          Aggregates
-## 121  HKG        East Asia &amp; Pacific         High income
-## 122  HND Latin America &amp; Caribbean  Lower middle income
-## 123  HPC                 Aggregates          Aggregates
-## 124  HRV      Europe &amp; Central Asia Upper middle income
-## 125  HTI Latin America &amp; Caribbean           Low income
-## 126  HUN      Europe &amp; Central Asia         High income
-## 127  IBB                 Aggregates          Aggregates
-## 128  IBD                 Aggregates          Aggregates
-## 129  IBT                 Aggregates          Aggregates
-## 130  IDA                 Aggregates          Aggregates
-## 131  IDB                 Aggregates          Aggregates
-## 132  IDN        East Asia &amp; Pacific Lower middle income
-## 133  IDX                 Aggregates          Aggregates
-## 134  IMN      Europe &amp; Central Asia         High income
-## 135  IND                 South Asia Lower middle income
-## 136  INX                 Aggregates          Aggregates
-## 137  IRL      Europe &amp; Central Asia         High income
-## 138  IRN Middle East &amp; North Africa Upper middle income
-## 139  IRQ Middle East &amp; North Africa Upper middle income
-## 140  ISL      Europe &amp; Central Asia         High income
-## 141  ISR Middle East &amp; North Africa         High income
-## 142  ITA      Europe &amp; Central Asia         High income
-## 143  JAM Latin America &amp; Caribbean  Upper middle income
-## 144  JOR Middle East &amp; North Africa Lower middle income
-## 145  JPN        East Asia &amp; Pacific         High income
-## 146  KAZ      Europe &amp; Central Asia Upper middle income
-## 147  KEN        Sub-Saharan Africa  Lower middle income
-## 148  KGZ      Europe &amp; Central Asia Lower middle income
-## 149  KHM        East Asia &amp; Pacific Lower middle income
-## 150  KIR        East Asia &amp; Pacific Lower middle income
-## 151  KNA Latin America &amp; Caribbean          High income
-## 152  KOR        East Asia &amp; Pacific         High income
-## 153  KWT Middle East &amp; North Africa         High income
-## 154  LAC                 Aggregates          Aggregates
-## 155  LAO        East Asia &amp; Pacific Lower middle income
-## 156  LBN Middle East &amp; North Africa Upper middle income
-## 157  LBR        Sub-Saharan Africa           Low income
-## 158  LBY Middle East &amp; North Africa Upper middle income
-## 159  LCA Latin America &amp; Caribbean  Upper middle income
-## 160  LCN                 Aggregates          Aggregates
-## 161  LCR                 Aggregates          Aggregates
-## 162  LDC                 Aggregates          Aggregates
-## 163  LIC                 Aggregates          Aggregates
-## 164  LIE      Europe &amp; Central Asia         High income
-## 165  LKA                 South Asia Lower middle income
-## 166  LMC                 Aggregates          Aggregates
-## 167  LMY                 Aggregates          Aggregates
-## 168  LSO        Sub-Saharan Africa  Lower middle income
-## 169  LTE                 Aggregates          Aggregates
-## 170  LTU      Europe &amp; Central Asia         High income
-## 171  LUX      Europe &amp; Central Asia         High income
-## 172  LVA      Europe &amp; Central Asia         High income
-## 173  MAC        East Asia &amp; Pacific         High income
-## 174  MAF Latin America &amp; Caribbean          High income
-## 175  MAR Middle East &amp; North Africa Lower middle income
-## 176  MCA                 Aggregates          Aggregates
-## 177  MCO      Europe &amp; Central Asia         High income
-## 178  MDA      Europe &amp; Central Asia Lower middle income
-## 179  MDE                 Aggregates          Aggregates
-## 180  MDG        Sub-Saharan Africa           Low income
-## 181  MDV                 South Asia Upper middle income
-## 182  MEA                 Aggregates          Aggregates
-## 183  MEX Latin America &amp; Caribbean  Upper middle income
-## 184  MHL        East Asia &amp; Pacific Upper middle income
-## 185  MIC                 Aggregates          Aggregates
-## 186  MKD      Europe &amp; Central Asia Upper middle income
-## 187  MLI        Sub-Saharan Africa           Low income
-## 188  MLT Middle East &amp; North Africa         High income
-## 189  MMR        East Asia &amp; Pacific Lower middle income
-## 190  MNA                 Aggregates          Aggregates
-## 191  MNE      Europe &amp; Central Asia Upper middle income
-## 192  MNG        East Asia &amp; Pacific Lower middle income
-## 193  MNP        East Asia &amp; Pacific         High income
-## 194  MOZ        Sub-Saharan Africa           Low income
-## 195  MRT        Sub-Saharan Africa  Lower middle income
-## 196  MUS        Sub-Saharan Africa  Upper middle income
-## 197  MWI        Sub-Saharan Africa           Low income
-## 198  MYS        East Asia &amp; Pacific Upper middle income
-## 199  NAC                 Aggregates          Aggregates
-## 200  NAF                 Aggregates          Aggregates
-## 201  NAM        Sub-Saharan Africa  Upper middle income
-## 202  NCL        East Asia &amp; Pacific         High income
-## 203  NER        Sub-Saharan Africa           Low income
-## 204  NGA        Sub-Saharan Africa  Lower middle income
-## 205  NIC Latin America &amp; Caribbean  Lower middle income
-## 206  NLD      Europe &amp; Central Asia         High income
-## 207  NLS                 Aggregates          Aggregates
-## 208  NOR      Europe &amp; Central Asia         High income
-## 209  NPL                 South Asia          Low income
-## 210  NRS                 Aggregates          Aggregates
-## 211  NRU        East Asia &amp; Pacific Upper middle income
-## 212  NXS                 Aggregates          Aggregates
-## 213  NZL        East Asia &amp; Pacific         High income
-## 214  OED                 Aggregates          Aggregates
-## 215  OMN Middle East &amp; North Africa         High income
-## 216  OSS                 Aggregates          Aggregates
-## 217  PAK                 South Asia Lower middle income
-## 218  PAN Latin America &amp; Caribbean  Upper middle income
-## 219  PER Latin America &amp; Caribbean  Upper middle income
-## 220  PHL        East Asia &amp; Pacific Lower middle income
-## 221  PLW        East Asia &amp; Pacific         High income
-## 222  PNG        East Asia &amp; Pacific Lower middle income
-## 223  POL      Europe &amp; Central Asia         High income
-## 224  PRE                 Aggregates          Aggregates
-## 225  PRI Latin America &amp; Caribbean          High income
-## 226  PRK        East Asia &amp; Pacific          Low income
-## 227  PRT      Europe &amp; Central Asia         High income
-## 228  PRY Latin America &amp; Caribbean  Upper middle income
-## 229  PSE Middle East &amp; North Africa Lower middle income
-## 230  PSS                 Aggregates          Aggregates
-## 231  PST                 Aggregates          Aggregates
-## 232  PYF        East Asia &amp; Pacific         High income
-## 233  QAT Middle East &amp; North Africa         High income
-## 234  ROU      Europe &amp; Central Asia Upper middle income
-## 235  RRS                 Aggregates          Aggregates
-## 236  RSO                 Aggregates          Aggregates
-## 237  RUS      Europe &amp; Central Asia Upper middle income
-## 238  RWA        Sub-Saharan Africa           Low income
-## 239  SAS                 Aggregates          Aggregates
-## 240  SAU Middle East &amp; North Africa         High income
-## 241  SCE                 Aggregates          Aggregates
-## 242  SDN        Sub-Saharan Africa  Lower middle income
-## 243  SEN        Sub-Saharan Africa           Low income
-## 244  SGP        East Asia &amp; Pacific         High income
-## 245  SLB        East Asia &amp; Pacific Lower middle income
-## 246  SLE        Sub-Saharan Africa           Low income
-## 247  SLV Latin America &amp; Caribbean  Lower middle income
-## 248  SMR      Europe &amp; Central Asia         High income
-## 249  SOM        Sub-Saharan Africa           Low income
-## 250  SRB      Europe &amp; Central Asia Upper middle income
-## 251  SSA                 Aggregates          Aggregates
-## 252  SSD        Sub-Saharan Africa           Low income
-## 253  SSF                 Aggregates          Aggregates
-## 254  SST                 Aggregates          Aggregates
-## 255  STP        Sub-Saharan Africa  Lower middle income
-## 256  SUR Latin America &amp; Caribbean  Upper middle income
-## 257  SVK      Europe &amp; Central Asia         High income
-## 258  SVN      Europe &amp; Central Asia         High income
-## 259  SWE      Europe &amp; Central Asia         High income
-## 260  SWZ        Sub-Saharan Africa  Lower middle income
-## 261  SXM Latin America &amp; Caribbean          High income
-## 262  SXZ                 Aggregates          Aggregates
-## 263  SYC        Sub-Saharan Africa          High income
-## 264  SYR Middle East &amp; North Africa Lower middle income
-## 265  TCA Latin America &amp; Caribbean          High income
-## 266  TCD        Sub-Saharan Africa           Low income
-## 267  TEA                 Aggregates          Aggregates
-## 268  TEC                 Aggregates          Aggregates
-## 269  TGO        Sub-Saharan Africa           Low income
-## 270  THA        East Asia &amp; Pacific Upper middle income
-## 271  TJK      Europe &amp; Central Asia Lower middle income
-## 272  TKM      Europe &amp; Central Asia Upper middle income
-## 273  TLA                 Aggregates          Aggregates
-## 274  TLS        East Asia &amp; Pacific Lower middle income
-## 275  TMN                 Aggregates          Aggregates
-## 276  TON        East Asia &amp; Pacific Upper middle income
-## 277  TSA                 Aggregates          Aggregates
-## 278  TSS                 Aggregates          Aggregates
-## 279  TTO Latin America &amp; Caribbean          High income
-## 280  TUN Middle East &amp; North Africa Lower middle income
-## 281  TUR      Europe &amp; Central Asia Upper middle income
-## 282  TUV        East Asia &amp; Pacific Upper middle income
-## 283  TWN        East Asia &amp; Pacific         High income
-## 284  TZA        Sub-Saharan Africa           Low income
-## 285  UGA        Sub-Saharan Africa           Low income
-## 286  UKR      Europe &amp; Central Asia Lower middle income
-## 287  UMC                 Aggregates          Aggregates
-## 288  URY Latin America &amp; Caribbean          High income
-## 289  USA              North America         High income
-## 290  UZB      Europe &amp; Central Asia Lower middle income
-## 291  VCT Latin America &amp; Caribbean  Upper middle income
-## 292  VEN Latin America &amp; Caribbean  Upper middle income
-## 293  VGB Latin America &amp; Caribbean          High income
-## 294  VIR Latin America &amp; Caribbean          High income
-## 295  VNM        East Asia &amp; Pacific Lower middle income
-## 296  VUT        East Asia &amp; Pacific Lower middle income
-## 297  WLD                 Aggregates          Aggregates
-## 298  WSM        East Asia &amp; Pacific Upper middle income
-## 299  XKX      Europe &amp; Central Asia Lower middle income
-## 300  XZN                 Aggregates          Aggregates
-## 301  YEM Middle East &amp; North Africa Lower middle income
-## 302  ZAF        Sub-Saharan Africa  Upper middle income
-## 303  ZMB        Sub-Saharan Africa  Lower middle income
-## 304  ZWE        Sub-Saharan Africa           Low income</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">wdicountry</a></code></pre></div>
+<pre><code>## # A tibble: 304 x 3
+##    iso3  wb_region                  wb_income          
+##    &lt;chr&gt; &lt;chr&gt;                      &lt;chr&gt;              
+##  1 ABW   Latin America &amp; Caribbean  High income        
+##  2 AFG   South Asia                 Low income         
+##  3 AFR   Aggregates                 Aggregates         
+##  4 AGO   Sub-Saharan Africa         Lower middle income
+##  5 ALB   Europe &amp; Central Asia      Upper middle income
+##  6 AND   Europe &amp; Central Asia      High income        
+##  7 ANR   Aggregates                 Aggregates         
+##  8 ARB   Aggregates                 Aggregates         
+##  9 ARE   Middle East &amp; North Africa High income        
+## 10 ARG   Latin America &amp; Caribbean  Upper middle income
+## # ... with 294 more rows</code></pre>
 <p>Additional regional information is available from the countrycode package and may be incorporated into places in future.</p>
 <p>The two regional tables are combined with selected fields from the geonames package.</p>
 <p>The regions file can be called as follows</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">places<span class="op">::</span>regions</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">places<span class="op">::</span>regions</a></code></pre></div>
 <pre><code>## # A tibble: 249 x 22
 ##    un_global_code un_global_name un_region_code un_region_name
 ##             &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;         
@@ -520,7 +242,7 @@
 ## #   iso_numeric &lt;chr&gt;, fips &lt;chr&gt;, country &lt;chr&gt;, geonameid &lt;int&gt;,
 ## #   wb_region &lt;chr&gt;, wb_income &lt;chr&gt;</code></pre>
 <p>To join the regions table with a set of results</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">left_join</span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">left_join</span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
 </div>
 <div id="feature-codes" class="section level3">
 <h3 class="hasAnchor">
@@ -538,9 +260,12 @@
 <li>V Vegetation Features</li>
 </ul>
 <p>An example of a corresponding code is:</p>
-<p>H.ANCH anchorage R.OILP oil pipeline</p>
+<ul>
+<li>H.ANCH anchorage</li>
+<li>R.OILP oil pipeline</li>
+</ul>
 <p>To view the featurecodes use:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">featurecodes</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">featurecodes</a></code></pre></div>
 <pre><code>## # A tibble: 671 x 7
 ##    feature_full feature_class feature_code feature_name   feature_detail  
 ##    &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;           
@@ -556,16 +281,16 @@
 ## 10 A.ADM5H      A             ADM5H        historical fi… a former fifth-…
 ## # ... with 661 more rows, and 2 more variables: feature_clean &lt;chr&gt;,
 ## #   multi &lt;lgl&gt;</code></pre>
-<p>Note that the original featurecode table concatenated the class and feature code, but in the country and allcountries files they are separated into <code>feature_class</code> and <code>feature_code</code>. To make them consistent for joining, the <code>feature_class</code> and <code>feature_code</code> in the country data are united into a new field called <code>feature_full</code> on import to enable joining with <code>featurecodes</code> table (note that to avoid duplication of columns the orifiginal <code>feature_class</code> and <code>feature_code</code> fields are dropped at import).</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw">left_join</span>(KE, featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">KE <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
+<p>Note that the original featurecode table concatenated the class and feature code, but in the country and allcountries files they are separated into <code>feature_class</code> and <code>feature_code</code>. To make them consistent for joining, the <code>feature_class</code> and <code>feature_code</code> in the country data are united into a new field called <code>feature_full</code> on import to enable joining with <code>featurecodes</code> table (note that to avoid duplication of columns the original <code>feature_class</code> and <code>feature_code</code> fields are dropped at import).</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw">left_join</span>(KE, featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">KE <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
 <p>The `<code>featurecodes</code> table, includes the feature code table divided into four columns that were parsed from the original file.</p>
 <ul>
 <li>feature_full (for joining)</li>
 <li>feature name (the short description)</li>
 <li>feature detail (a longer description)</li>
 <li>feature_clean (basic cleaning on the feature name to remove plurals such as forest(s))</li>
-<li>MULTI A logical field indicating whether the feature_clean fields contains multiword phrases (TRUE)</li>
+<li>MULTI A logical field indicating whether the feature_clean fields contains multi word phrases (TRUE)</li>
 </ul>
 <p>You may wish to join this table to the main table or to investigate the codes and filter accordingly.</p>
 </div>
@@ -576,7 +301,7 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Report a bug at <br><a href="NA">NA</a>
+<li>Report a bug at <br><a href="https://github.com/wipo-analytics/places/issues">https://​github.com/​wipo-analytics/​places/​issues</a>
 </li>
 </ul>
 </div>
