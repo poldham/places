@@ -1,8 +1,8 @@
 #if(getRversion() >= "3.1.0") utils::suppressForeignCheck(".")
 
-#' @title Read in file
-#' @description Take the input from places_import, download the file, name the columns and return a data frame.
-#' @param x Input from places_import
+# Read in file
+# Take the input from places_import, download the file, name the columns, create feature_full for join, drop feature_class and feature_code to avoid_duplicates, return a data frame.
+# Input from places_import
 read_places <- function(x) {
   # Namibia as NA will need special treatment as the file name will need to be converted to Namibia on import
   code <- x
@@ -38,13 +38,13 @@ read_places <- function(x) {
   unlink("data-raw/temp.zip")
   # Namibia (NA) is a special case that needs to be handled somewhere here
   x <- x %>% dplyr::mutate(download_date = Sys.Date()) %>%
-    tidyr::unite(., feature_full, c(feature_class, feature_code), sep = ".", remove = TRUE) # note changed from FALSE to enable join
-  assign(code, x, envir = globalenv())
+    tidyr::unite(., feature_full, c(feature_class, feature_code), sep = ".", remove = TRUE) # note changed from FALSE for joining
+  assign(code, x, envir = globalenv()) # CRAN issue
  }
 
-#' @title handle file import from file path
-#' @description Import raw file and return df with regular cols where path specified. Note that may need to adjust for windows file path cases.
-#' @param path geonames file path
+# handle file import from file path. Not actually used. Drop?
+# Import raw file and return df with regular cols where path specified. Note that may need to adjust for windows file path cases.
+# geonames file path
 read_path <- function(path) {
   is_zip <- stringr::str_detect(path, ".zip")
   is_txt <- stringr::str_detect(path, ".txt")

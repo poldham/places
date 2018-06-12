@@ -3,7 +3,7 @@
 \docType{data}
 \name{KE}
 \alias{KE}
-\title{Kenya}
+\title{Kenya Geonames dataset}
 \format{{
 A data frame with 29598 observations on the following 21 variables.
 \describe{
@@ -34,6 +34,6 @@ A data frame with 29598 observations on the following 21 variables.
 data("KE")
 }
 \description{
-Kenya geonames dataset
+The geonames dataset for Kenya
 }
 \keyword{datasets}

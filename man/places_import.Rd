@@ -2,7 +2,7 @@
 % Please edit documentation in R/places_import.R
 \name{places_import}
 \alias{places_import}
-\title{Import Geonames Data Files}
+\title{Import the latest Country data}
 \usage{
 places_import(country = NULL, code = NULL, path = NULL)
 }

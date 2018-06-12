@@ -3,7 +3,7 @@
 \docType{data}
 \name{featurecodes}
 \alias{featurecodes}
-\title{featurecodes}
+\title{Geonames Feature Codes table for Feature classes & types}
 \format{{A data.frame with 7 variables
 \describe{
 \itemize{
@@ -30,10 +30,13 @@
 \href{http://download.geonames.org/export/dump/featureCodes_en.txt}{geonames featureCodes_en.txt}
 }
 \usage{
-featurecodes
+data("featurecodes")
 }
 \description{
 The english geonames featurecodes table \href{http://download.geonames.org/export/dump/featureCodes_en.txt}{geonames featurecode}.
+}
+\examples{
+featurecodes
 }
 \references{
 Please cite as: GeoNames. http://geonames.org/.

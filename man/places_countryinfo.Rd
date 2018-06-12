@@ -2,7 +2,7 @@
 % Please edit documentation in R/places_countryinfo.R
 \name{places_countryinfo}
 \alias{places_countryinfo}
-\title{Import the Country Info file}
+\title{Import the latest Countryinfo file}
 \usage{
 places_countryinfo()
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/places_table.R
 \name{places_table}
 \alias{places_table}
-\title{Fetch the daily geonames dump page}
+\title{Import the latest geonames dump page}
 \usage{
 places_table()
 }

@@ -1,6 +1,8 @@
-#' @title featurecodes
+#' @title Geonames Feature Codes table for Feature classes & types
 #' @description The english geonames featurecodes table \href{http://download.geonames.org/export/dump/featureCodes_en.txt}{geonames featurecode}.
 #' @docType data
+#' @usage data("featurecodes")
+#' @aliases featurecodes
 #' @references Please cite as: GeoNames. http://geonames.org/.
 #' @source \href{http://download.geonames.org/export/dump/featureCodes_en.txt}{geonames featureCodes_en.txt}
 #' @format {A data.frame with 7 variables
@@ -23,4 +25,5 @@
 #' \item{\code{multi:}}{ Processed field indicating the presence of a plural in feature name, logical}
 #' }
 #' }
+#' @examples featurecodes
 "featurecodes"

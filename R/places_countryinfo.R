@@ -1,4 +1,4 @@
-#' @title Import the Country Info file
+#' @title Import the latest Countryinfo file
 #' @description The geonames country info text file \url{http://download.geonames.org/export/dump/countryInfo.txt } contains the country names and a range of codes along with information linked to the capital city.
 #' @return data.frame
 #' @details Column names are converted to lowercase, spaces are replaced with underscores and brackets removed.

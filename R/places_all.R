@@ -1,4 +1,4 @@
-#' @title Download the All Countries Geonames reference table
+#' @title Download an archive of the All Countries (all data) table
 #' @description The allcountries file is a reference file of the Geonames daily data dump from 2018-01-01 containing 11,180,293 georeferenced place names.
 #' The Geonames daily data dump for all countries (\href{http://download.geonames.org/export/dump/allCountries.zip}{Geonames allCountries.txt}). The package reference file from 2018-01-01 contains 11,180,293 georeferenced place names in a 364MB file. As this is a large file it can take a while. To import the most recent file use \code{\link{places_import}}.
 #' @docType data

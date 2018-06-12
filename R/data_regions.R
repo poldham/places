@@ -1,4 +1,4 @@
-#' Regions
+#' Combined Regions Table
 #' @description United Nations Statistical Division and World Bank Development Indicator regions
 #' @return data.frame
 #' @format{

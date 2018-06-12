@@ -1,5 +1,5 @@
-#' @title Kenya
-#' @description Kenya geonames dataset
+#' @title Kenya Geonames dataset
+#' @description The geonames dataset for Kenya
 #' @usage data("KE")
 #' @aliases KE
 #' @format{

@@ -3,7 +3,7 @@
 \docType{data}
 \name{places_all}
 \alias{places_all}
-\title{Download the All Countries Geonames reference table}
+\title{Download an archive of the All Countries (all data) table}
 \format{{A data.frame with 20 variables
 \describe{
 \item{\code{geonameid}}{}

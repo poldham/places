@@ -1,4 +1,4 @@
-#' @title Import Geonames Data Files
+#' @title Import the latest Country data
 #' @description Read in and process geonames data dump files into a data.frame.
 #' @param country A country name (use \code{\link{places_lookup}}). For all countries use "all" (note > 300 MB file).
 #' @param code A two letter iso country code (use \code{\link{places_lookup}})

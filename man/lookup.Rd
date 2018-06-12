@@ -3,7 +3,7 @@
 \docType{data}
 \name{lookup}
 \alias{lookup}
-\title{lookup}
+\title{internal lookup table}
 \format{{A data frame with 252 observations on the following 33 variables.
 \describe{
 \item{\code{iso}}{a character vector}

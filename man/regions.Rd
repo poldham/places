@@ -3,7 +3,7 @@
 \docType{data}
 \name{regions}
 \alias{regions}
-\title{Regions}
+\title{Combined Regions Table}
 \format{{
 \describe{
 \item{\code{un_global_code}}{numeric}

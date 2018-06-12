@@ -1,4 +1,4 @@
-#' lookup
+#' internal lookup table
 #' @description A lookup table
 #' @format{A data frame with 252 observations on the following 33 variables.
 #' \describe{
