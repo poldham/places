@@ -5,3 +5,4 @@ ignore
 ^data-raw
 ^README_cache
 ^debug\.log
+^\.travis\.yml

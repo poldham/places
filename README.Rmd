@@ -5,7 +5,7 @@ date: "03/09/2017"
 output: html_document
 ---
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![Build Status](https://travis-ci.org/search/search.svg?branch=master)](https://travis-ci.org/search/search)
+[![Build Status](https://travis-ci.org/poldham/places.svg?branch=master)](https://travis-ci.org/poldham/places)
  
 ---
  
@@ -57,7 +57,7 @@ The original [table](http://download.geonames.org/export/dump/) contained the fo
 - size
 - description (empty)
 
-To make the table easier to work with `places_table()` separates out the files into `iso` (for country files) and `other` for other files. `File_name`, `file_type` and `url` for file paths are added. country names and iso and iso3 country codes are also added to aid lookup.
+To make the table easier to work with `places_table()` separates out the files into `iso` (for country files) and `other` for other files. `File_name`, `file_type` and `url` for file paths are added. 
 
 ## Looking Up Countries
 
@@ -86,7 +86,7 @@ The advantage of this table is that it includes information such as the capital 
 
 ## Individual Country data
 
-You can import the latest data for an individual country using `places_import()`. The main focus here is on the use of iso two letter country codes. A download date column is added by default to assist with keeping track of the file history. 
+You can import the latest data for an individual country using `places_import()`. The main focus here is on the use of iso two letter country codes. A `download_date` column is added by default to assist with keeping track of the file history. 
 
 ```{r}
 KE <- places_import(code = "KE")
@@ -98,8 +98,6 @@ kenya <- places_import(country = "Kenya")
 kenya
 ```
 
-
-
 Note that `places_import()` is not vectorised and only handles one country file at a time. For multiple countries or regions it is easier to work with the allcountries table. 
 
 ### All Countries
@@ -110,18 +108,18 @@ Geonames produces a daily file containing the data for all countries. The allcou
 places_import(country = "all")
 ```
 
-If you run into problems for whatever reason a highly compressed archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as `allcountries`. This file is intended to be used as a stable reference set.
+If you run into problems for whatever reason an archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as `allcountries`. This file is intended to be used as a stable reference set.
 
 ```{r eval=FALSE}
-places::places()
+places::places_all()
 ```
 
 ### Regions, Sub-Regions, intermediate regions and continents
 
-To aid with multicountry analysis the package includes two combined add on tables. 
+To aid with multicountry analysis the package includes two add on tables. 
 
 1. The [United Nations regions (M49)](https://unstats.un.org/unsd/methodology/m49/overview/) from the United Nations Statistical Division
-2. World Bank regional divisions (through the World Development Indicators (WDI) package). 
+2. World Bank regional divisions (through the World Development Indicators ([WDI](https://github.com/vincentarelbundock/WDI)) package). 
 
 You can call these table directly:
 
@@ -181,12 +179,15 @@ Note that the original featurecode table concatenated the class and feature code
 
 ```{r echo=FALSE}
 load("data/KE.rda")
+load("data/featurecodes.rda")
 ```
 
 
-```{r eval=FALSE}
-KE <- left_join(KE, featurecodes, by = "feature_full")
-KE %>% select(feature_full, feature_name, name, longitude, latitude)
+```{r}
+KE <- left_join(KE, places::featurecodes, by = "feature_full")
+
+KE %>%
+  select(feature_full, feature_name, name, longitude, latitude)
 ```
 
 The ``featurecodes` table, includes the feature code table divided into four columns that were parsed from the original file. 

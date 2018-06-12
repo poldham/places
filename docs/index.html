@@ -100,7 +100,7 @@
 <li>size</li>
 <li>description (empty)</li>
 </ul>
-<p>To make the table easier to work with <code><a href="reference/places_table.html">places_table()</a></code> separates out the files into <code>iso</code> (for country files) and <code>other</code> for other files. <code>File_name</code>, <code>file_type</code> and <code>url</code> for file paths are added. country names and iso and iso3 country codes are also added to aid lookup.</p>
+<p>To make the table easier to work with <code><a href="reference/places_table.html">places_table()</a></code> separates out the files into <code>iso</code> (for country files) and <code>other</code> for other files. <code>File_name</code>, <code>file_type</code> and <code>url</code> for file paths are added.</p>
 </div>
 <div id="looking-up-countries" class="section level2">
 <h2 class="hasAnchor">
@@ -143,7 +143,7 @@
 <div id="individual-country-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#individual-country-data" class="anchor"></a>Individual Country data</h2>
-<p>You can import the latest data for an individual country using <code><a href="reference/places_import.html">places_import()</a></code>. The main focus here is on the use of iso two letter country codes. A download date column is added by default to assist with keeping track of the file history.</p>
+<p>You can import the latest data for an individual country using <code><a href="reference/places_import.html">places_import()</a></code>. The main focus here is on the use of iso two letter country codes. A <code>download_date</code> column is added by default to assist with keeping track of the file history.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">code =</span> <span class="st">"KE"</span>)</a></code></pre></div>
 <pre><code>## [1] "http://download.geonames.org/export/dump/KE.zip"</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">KE</a></code></pre></div>
@@ -171,16 +171,16 @@
 <a href="#all-countries" class="anchor"></a>All Countries</h3>
 <p>Geonames produces a daily file containing the data for all countries. The allcountries daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed. You can import the latest daily file with:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">country =</span> <span class="st">"all"</span>)</a></code></pre></div>
-<p>If you run into problems for whatever reason a highly compressed archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as <code>allcountries</code>. This file is intended to be used as a stable reference set.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places">places</a></span>()</a></code></pre></div>
+<p>If you run into problems for whatever reason an archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as <code>allcountries</code>. This file is intended to be used as a stable reference set.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_all">places_all</a></span>()</a></code></pre></div>
 </div>
 <div id="regions-sub-regions-intermediate-regions-and-continents" class="section level3">
 <h3 class="hasAnchor">
 <a href="#regions-sub-regions-intermediate-regions-and-continents" class="anchor"></a>Regions, Sub-Regions, intermediate regions and continents</h3>
-<p>To aid with multicountry analysis the package includes two combined add on tables.</p>
+<p>To aid with multicountry analysis the package includes two add on tables.</p>
 <ol style="list-style-type: decimal">
 <li>The <a href="https://unstats.un.org/unsd/methodology/m49/overview/">United Nations regions (M49)</a> from the United Nations Statistical Division</li>
-<li>World Bank regional divisions (through the World Development Indicators (WDI) package).</li>
+<li>World Bank regional divisions (through the World Development Indicators (<a href="https://github.com/vincentarelbundock/WDI">WDI</a>) package).</li>
 </ol>
 <p>You can call these table directly:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">unregions</a></code></pre></div>
@@ -287,8 +287,24 @@
 ## # ... with 661 more rows, and 2 more variables: feature_clean &lt;chr&gt;,
 ## #   multi &lt;lgl&gt;</code></pre>
 <p>Note that the original featurecode table concatenated the class and feature code, but in the country and allcountries files they are separated into <code>feature_class</code> and <code>feature_code</code>. To make them consistent for joining, the <code>feature_class</code> and <code>feature_code</code> in the country data are united into a new field called <code>feature_full</code> on import to enable joining with <code>featurecodes</code> table (note that to avoid duplication of columns the original <code>feature_class</code> and <code>feature_code</code> fields are dropped at import).</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw">left_join</span>(KE, featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">KE <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw">left_join</span>(KE, places<span class="op">::</span>featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">KE <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
+<pre><code>## # A tibble: 29,598 x 5
+##    feature_full feature_name        name             longitude latitude
+##    &lt;chr&gt;        &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;   
+##  1 L.AREA       area                Mata Arba        40.97667  -0.67472
+##  2 H.STMI       intermittent stream Kolbiyow         41.49477  -1.25055
+##  3 T.MT         mountain            Bur Gause        41.75744  3.77299 
+##  4 T.HLL        hill                Did Songa        41.26667  -1.2    
+##  5 H.STM        stream              Umba             39.22688  -4.66354
+##  6 H.STM        stream              Musangairo       37.6457   -2.96965
+##  7 T.PLN        plain(s)            Serengeti Plains 37.92541  -3.42386
+##  8 T.HLL        hill                Schlobach        37.66424  -3.35848
+##  9 T.MT         mountain            Oldoinyo Orok    36.75141  -2.49465
+## 10 H.STMI       intermittent stream Namanga          37.01915  -2.6785 
+## # ... with 29,588 more rows</code></pre>
 <p>The `<code>featurecodes</code> table, includes the feature code table divided into four columns that were parsed from the original file.</p>
 <ul>
 <li>feature_full (for joining)</li>
@@ -329,7 +345,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
-<li><a href="https://travis-ci.org/search/search"><img src="https://travis-ci.org/search/search.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://travis-ci.org/poldham/places"><img src="https://travis-ci.org/poldham/places.svg?branch=master" alt="Build Status"></a></li>
 </ul>
 </div>
 </div>
