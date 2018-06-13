@@ -1,10 +1,11 @@
 if(getRversion() >= "3.1.0") utils::suppressForeignCheck(".")
 
-# Read in file
-# Take the input from places_import, download the file, name the columns, create feature_full for join, drop feature_class and feature_code to avoid_duplicates, return a data frame.
-# Input from places_import
+# Read in file Take the input from places_import, download the file, name the
+# columns, create feature_full for join, drop feature_class and feature_code to
+# avoid_duplicates, return a data frame. Input from places_import
 read_places <- function(x) {
-  # Namibia as NA will need special treatment as the file name will need to be converted to Namibia on import
+  # Namibia as NA will need special treatment as the file name will need to be
+  # converted to Namibia on import
   code <- x
   baseurl <- "http://download.geonames.org/export/dump/"
   extension <- ".zip"

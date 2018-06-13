@@ -32,9 +32,12 @@
 #' @export
 #' @examples \dontrun{places <- places()}
 places_all <- function(){
-  utils::download.file("https://oneworldanalytics.ams3.digitaloceanspaces.com/allcountries.rda", destfile = "allcountries.rda", method = "libcurl")
+  utils::download.file("https://oneworldanalytics.ams3.digitaloceanspaces.com/allcountries.rda",
+                       destfile = "allcountries.rda", method = "libcurl")
   load("allcountries.rda", envir = globalenv(), verbose = FALSE)
-  # this works in downloading and will avoid assigning to the global env but is woefully slow. Switch to fread
-  # utils::download.file("https://oneworldanalytics.ams3.digitaloceanspaces.com/allcountries.rda", destfile = "data/allcountries.rda", method = "libcurl")
+  # this works in downloading and will avoid assigning to the global env but is
+  # woefully slow. Switch to fread
+  # utils::download.file("https://oneworldanalytics.ams3.digitaloceanspaces.com/allcountries.rda",
+  # destfile = "data/allcountries.rda", method = "libcurl")
   # load("data/allcountries.rda", envir = globalenv(), verbose = FALSE)
 }

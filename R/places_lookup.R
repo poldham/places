@@ -51,8 +51,8 @@
 #' caribbean <- places_lookup("Caribbean", type = "intermediate"),
 #' }
 places_lookup <- function(name = NULL, type = "country"){
-  # test if all upper case for country codes, convert to title in cases where FALSE
-  # need a friendly warning
+  # test if all upper case for country codes, convert to title in cases where
+  # FALSE need a friendly warning
   case <- grepl("^[[:upper:]]+$", name)
   if (case[[1]] == FALSE) {
     name <- stringr::str_to_title(name)

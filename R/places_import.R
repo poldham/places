@@ -8,17 +8,22 @@
 #' @export
 #' @examples \dontrun{cc <- places_import(code = "AI")}
 places_import <- function(country = NULL, code = NULL, path = NULL){
-  # These are if statements for different cases. The work is done by read_places and read_path in zzz
-  # identify the URL from the country name or code and import and unzip the file adding file headers
+  # These are if statements for different cases.
+  # The work is done by read_places and read_path in zzz
+  # identify the URL from the country name or code and import
+  # and unzip the file adding file headers
   if (!is.null(path)) {
     df <- read_path(path)
   }
   if (!is.null(country)) {
       if (country == "all") {
       df <- read_places("allCountries")
-      # call returns a warning that some values were not matched unambiguosuly... ah a second URL with NA case. The source of the NA for the second URL needs to be located.
+      # call returns a warning that some values were not matched
+      # unambiguosuly... ah a second URL with NA case. The source of the NA for
+      # the second URL needs to be located.
       }
-    # places lookup returns a tibble where what is wanted is the code in the first row of the tibble
+    # places lookup returns a tibble where what is wanted is the code in the
+    # first row of the tibble
     country1 <- places_lookup(country)
     # error message case needed here for cases where invalid country
     df <- read_places(country1[[1]])
