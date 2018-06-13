@@ -1,4 +1,4 @@
-#if(getRversion() >= "3.1.0") utils::suppressForeignCheck(".")
+if(getRversion() >= "3.1.0") utils::suppressForeignCheck(".")
 
 # Read in file
 # Take the input from places_import, download the file, name the columns, create feature_full for join, drop feature_class and feature_code to avoid_duplicates, return a data frame.
@@ -12,7 +12,7 @@ read_places <- function(x) {
   print(url)
   file <- paste0(code, ".txt")
   x <- utils::download.file(url, destfile = "data-raw/temp.zip")
-  # should this go into a separate fun as so can be used in the path case without repetition
+  # place in a separate fun so can be used in the path case without repetition
   x <- unz("data-raw/temp.zip", file) %>%
     readr::read_delim(., delim = "\t", escape_double = FALSE, trim_ws = TRUE, na = "", col_names = c("geonameid", "name", "asciiname", "alternatenames", "latitude", "longitude", "feature_class", "feature_code", "iso", "cc2", "admin1_code", "admin2_code", "admin3_code", "admin4_code", "population", "elevation", "dem", "timezone", "modification_date"), col_type = readr::cols(geonameid = readr::col_character(),
     name = readr::col_character(),
@@ -39,7 +39,7 @@ read_places <- function(x) {
   # Namibia (NA) is a special case that needs to be handled somewhere here
   x <- x %>% dplyr::mutate(download_date = Sys.Date()) %>%
     tidyr::unite(., feature_full, c(feature_class, feature_code), sep = ".", remove = TRUE) # note changed from FALSE for joining
-  assign(code, x, envir = globalenv()) # CRAN issue
+  assign(code, x, envir = globalenv()) # CRAN issue. Try saving to data and then loading and use fread instead?
  }
 
 # handle file import from file path. Not actually used. Drop?
