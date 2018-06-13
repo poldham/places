@@ -6,3 +6,4 @@ ignore
 ^README_cache
 ^debug\.log
 ^\.travis\.yml
+docs
