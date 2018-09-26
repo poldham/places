@@ -128,7 +128,7 @@ places_download(country = "KE")
 
 If you try and download more than one file at a time things will quickly go wrong.
 
-```{r}
+```{r eval=FALSE}
 places_download(code = c("AI", "GB"))
 ```
 

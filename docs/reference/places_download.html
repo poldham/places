@@ -115,7 +115,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>country</th>
-      <td><p>A country name (use <code><a href='places_lookup.html'>places_lookup</a></code>). For all countries use "all" (note &gt; 300 MB file).</p></td>
+      <td><p>A country name (use <code><a href='places_lookup.html'>places_lookup</a></code>). For all countries use "allcountries" (note &gt; 300 MB file).</p></td>
     </tr>
     <tr>
       <th>code</th>
@@ -136,7 +136,7 @@
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>AI</span> <span class='kw'>&lt;-</span> <span class='fu'>places_download</span>(<span class='kw'>code</span> <span class='kw'>=</span> <span class='st'>"AI"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='places_import.html'>places_import</a></span>()
 <span class='no'>kenya</span> <span class='kw'>&lt;-</span> <span class='fu'>places_download</span>(<span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"kenya"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='places_import.html'>places_import</a></span>()
-<span class='no'>all</span> <span class='kw'>&lt;-</span> <span class='fu'>places_download</span>(<span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"all"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='places_import.html'>places_import</a></span>()
+<span class='no'>all</span> <span class='kw'>&lt;-</span> <span class='fu'>places_download</span>(<span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"allcountries"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='places_import.html'>places_import</a></span>()
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -71,12 +71,13 @@
 <hr>
 <p><a href="https://cran.r-project.org/"><img src="https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg" alt="minimal R version"></a> <a href="https://cran.r-project.org/package=places"><img src="http://www.r-pkg.org/badges/version/places" alt="CRAN_Status_Badge"></a> <a href="commits/master"><img src="https://img.shields.io/badge/Package%20version-0.0.0.9000-orange.svg?style=flat-square" alt="packageversion"></a></p>
 <hr>
-<p><a href="/commits/master"><img src="https://img.shields.io/badge/last%20change-2018--08--01-yellowgreen.svg" alt="Last-changedate"></a></p>
+<p><a href="/commits/master"><img src="https://img.shields.io/badge/last%20change-2018--09--26-yellowgreen.svg" alt="Last-changedate"></a></p>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>The <code>places</code> package provides access to the daily data files from the <a href="http://download.geonames.org/export/dump/">geonames data dump</a>. The aim of the package is to make the geonames dump consisting of over 11 million place names with geographic coordinates available for large scale mapping or text mining projects involving multiple countries or world regions.</p>
 <p><code>places</code> is intended to complement the <a href="https://github.com/ropensci/geonames">rOpenSci <code>geonames()</code> package</a> by Barry Rowlingson. The geonames package provides access to the geonames API and is recommended for smaller scale projects. The <code>places</code> package is better suited for larger scale projects involving text mining and mapping place names from literature or other projects involving federating different kinds of data with geoinformation at scale. The package also adds additional tables that make it easier to select subsets of data for geographic regions or subregions or economic status using United Nations and World Bank datasets.</p>
+<p>The places package was developed with support from the Research Council of Norway (RCN project number 257631/E10) as part of the Biospolar Project.</p>
 <p>The purpose of this walk through is to take you through how to access the data, what is available, and decisions on issues such as tidying the data.</p>
 </div>
 <div id="installing" class="section level2">
@@ -157,67 +158,95 @@
 <h2 class="hasAnchor">
 <a href="#individual-country-data" class="anchor"></a>Individual Country data</h2>
 <p>You can download the latest raw data for an individual country using <code><a href="reference/places_download.html">places_download()</a></code> and import it as a data frame with tidy column names using <code><a href="reference/places_import.html">places_import()</a></code>. A <code>download_date</code> column is added by default to assist with keeping track of the file history.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">code =</span> <span class="st">"KE"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>()</a></code></pre></div>
+<p>Download and import and presently handled in two steps to avoid assigning to the global environment. The pipe <code>%&gt;%</code> is built into places.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">code =</span> <span class="st">"KE"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>()</a></code></pre></div>
 <pre><code>## [1] "http://download.geonames.org/export/dump/KE.zip"</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">KE</a></code></pre></div>
-<pre><code>## # A tibble: 29,613 x 19
-##    geonameid name   asciiname  alternatenames           latitude longitude
-##    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;                    &lt;chr&gt;    &lt;chr&gt;    
-##  1 54121     Mata … Mata Arba  &lt;NA&gt;                     -0.67472 40.97667 
-##  2 55628     Kolbi… Kolbiyow   Kolbiyow,Lac Chinoti,La… -1.25055 41.49477 
-##  3 58869     Bur G… Bur Gause  Bur Gause,Bur Gavse,Bur… 3.77299  41.75744 
-##  4 60856     Did S… Did Songa  Did Songa                -1.2     41.26667 
-##  5 149213    Umba   Umba       Mto Umba,Umba,Umba River -4.66354 39.22688 
-##  6 149529    Musan… Musangairo Musangairo,Tarakea,Tere… -2.96965 37.6457  
-##  7 150092    Seren… Serengeti… Serengeti Plains,Sereng… -3.42386 37.92541 
-##  8 150177    Schlo… Schlobach  Schlobach                -3.35848 37.66424 
-##  9 150859    Oldoi… Oldoinyo … Ol Doinyo Orok,Oldoinyo… -2.49465 36.75141 
-## 10 151987    Naman… Namanga    Namanga                  -2.6785  37.01915 
-## # ... with 29,603 more rows, and 13 more variables: feature_class &lt;chr&gt;,
+<pre><code>## # A tibble: 30,113 x 20
+##    geonameid name  asciiname alternatenames latitude longitude
+##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;    
+##  1 54121     Mata… Mata Arba &lt;NA&gt;           -0.67472 40.97667 
+##  2 55628     Kolb… Kolbiyow  Kolbiyow,Lac … -1.25055 41.49477 
+##  3 58869     Bur … Bur Gause Bur Gause,Bur… 3.77299  41.75744 
+##  4 60856     Did … Did Songa Did Songa      -1.2     41.26667 
+##  5 149213    Umba  Umba      Mto Umba,Umba… -4.66354 39.22688 
+##  6 149529    Musa… Musangai… Musangairo,Ta… -2.96965 37.6457  
+##  7 150092    Sere… Serenget… Serengeti Pla… -3.42386 37.92541 
+##  8 150177    Schl… Schlobach Schlobach      -3.35848 37.66424 
+##  9 150859    Oldo… Oldoinyo… Ol Doinyo Oro… -2.49465 36.75141 
+## 10 151987    Nama… Namanga   Namanga        -2.6785  37.01915 
+## # ... with 30,103 more rows, and 14 more variables: feature_class &lt;chr&gt;,
 ## #   feature_code &lt;chr&gt;, iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;,
 ## #   admin2_code &lt;chr&gt;, admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;,
 ## #   population &lt;chr&gt;, elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;,
-## #   modification_date &lt;date&gt;</code></pre>
-<p>You can use either the two letter country code or the country name for import.</p>
-<p>To help you keep track the download date is automatically addess to the table.</p>
+## #   modification_date &lt;date&gt;, download_date &lt;date&gt;</code></pre>
+<p><code>places_download</code> uses <code>places_lookup</code> internally meaning that you can simply enter a country name using the <code>country =</code> argument.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">anguilla &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">country =</span> <span class="st">"anguilla"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>()</a></code></pre></div>
+<pre><code>## [1] "http://download.geonames.org/export/dump/AI.zip"</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">anguilla</a></code></pre></div>
+<pre><code>## # A tibble: 234 x 20
+##    geonameid name  asciiname alternatenames latitude longitude
+##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;    
+##  1 3573360   Wind… Windward… &lt;NA&gt;           18.27035 -62.9667 
+##  2 3573361   Wind… Windward… &lt;NA&gt;           18.27547 -62.96621
+##  3 3573362   Whit… White Hi… &lt;NA&gt;           18.25327 -62.99573
+##  4 3573363   West… West Poi… &lt;NA&gt;           18.27716 -62.96029
+##  5 3573364   West… West End… &lt;NA&gt;           18.17191 -63.14941
+##  6 3573365   West… West End… West End Pond… 18.16697 -63.15673
+##  7 3573366   West… West End… &lt;NA&gt;           18.17185 -63.15675
+##  8 3573367   West… West Cay  &lt;NA&gt;           18.2773  -63.27498
+##  9 3573368   Welc… Welches … Welches,Welch… 18.2446  -63.01217
+## 10 3573369   Watt… Wattices  &lt;NA&gt;           18.22674 -63.03368
+## # ... with 224 more rows, and 14 more variables: feature_class &lt;chr&gt;,
+## #   feature_code &lt;chr&gt;, iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;,
+## #   admin2_code &lt;chr&gt;, admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;,
+## #   population &lt;chr&gt;, elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;,
+## #   modification_date &lt;date&gt;, download_date &lt;date&gt;</code></pre>
+<p><code>places_download</code> can handle different cases and will fail fast on common errors.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">code =</span> <span class="st">"Kenya"</span>)</a></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">country =</span> <span class="st">"KE"</span>)</a></code></pre></div>
+<p>If you try and download more than one file at a time things will quickly go wrong.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">code =</span> <span class="kw">c</span>(<span class="st">"AI"</span>, <span class="st">"GB"</span>))</a></code></pre></div>
 <p><code><a href="reference/places_download.html">places_download()</a></code> is not vectorised and only handles one country file at a time. For multiple countries or regions it is easier to work with the <code>allcountries</code> table.</p>
 <div id="all-countries" class="section level3">
 <h3 class="hasAnchor">
 <a href="#all-countries" class="anchor"></a>All Countries</h3>
 <p>Geonames produces a daily file containing the data for all countries. The <code>allcountries</code> daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed.</p>
 <p>For many purposes you may be happy with a highly compressed archive of the allcountries file. The archive was created on the 1st of January 2018 as a .rda file and is a 257MB compressed .rda file that can be called with:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="reference/places_archive.html">places_archive</a></span>()</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">load</span>(<span class="st">"allcountries.rda"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="reference/places_archive.html">places_archive</a></span>()</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">load</span>(<span class="st">"allcountries.rda"</span>)</a></code></pre></div>
 <p>This will take a few minutes to download and then to load… so maybe take a break for a cup of tea.</p>
 <p>If you would like to retrieve the latest data file, use:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">allcountries &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">country =</span> <span class="st">"all"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>()</a></code></pre></div>
-<p>You may want to have a cup of tea while waiting for this.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">allcountries &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">country =</span> <span class="st">"allcountries"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>()</a></code></pre></div>
+<p>You may want to have another cup of tea while waiting for this.</p>
 </div>
 <div id="place-names" class="section level3">
 <h3 class="hasAnchor">
 <a href="#place-names" class="anchor"></a>Place names</h3>
 <p>The geonames tables contains three name fields. The asciiname is the most useful for text mining and you may want to take a look at the alternatenames field for known variants. The built in Kenya dataset (KE) can be useful for getting to grips with the data.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">places<span class="op">::</span>KE <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw">separate_rows</span>(alternatenames, <span class="dt">sep =</span> <span class="st">","</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">places<span class="op">::</span>KE <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">separate_rows</span>(alternatenames, <span class="dt">sep =</span> <span class="st">","</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 39,009 x 19
-##    geonameid name      asciiname alternatenames   latitude longitude
-##    &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;    
-##  1 54121     Mata Arba Mata Arba &lt;NA&gt;             -0.67472 40.97667 
-##  2 55628     Kolbiyow  Kolbiyow  Kolbiyow         -1.25055 41.49477 
-##  3 55628     Kolbiyow  Kolbiyow  Lac Chinoti      -1.25055 41.49477 
-##  4 55628     Kolbiyow  Kolbiyow  Lac Colbio       -1.25055 41.49477 
-##  5 55628     Kolbiyow  Kolbiyow  Lac Colbìo       -1.25055 41.49477 
-##  6 55628     Kolbiyow  Kolbiyow  Lac Gifta Bura   -1.25055 41.49477 
-##  7 55628     Kolbiyow  Kolbiyow  Lac Kolbio       -1.25055 41.49477 
-##  8 55628     Kolbiyow  Kolbiyow  Lach Colbio      -1.25055 41.49477 
-##  9 55628     Kolbiyow  Kolbiyow  Lach Gif-ta Bura -1.25055 41.49477 
-## 10 55628     Kolbiyow  Kolbiyow  Laga Kalbio      -1.25055 41.49477 
-## # ... with 38,999 more rows, and 13 more variables: feature_full &lt;chr&gt;,
-## #   iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;, admin2_code &lt;chr&gt;,
-## #   admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;, population &lt;chr&gt;,
-## #   elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;, modification_date &lt;date&gt;,
-## #   download_date &lt;date&gt;</code></pre>
+##    geonameid name  asciiname alternatenames latitude longitude feature_full
+##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;       
+##  1 54121     Mata… Mata Arba &lt;NA&gt;           -0.67472 40.97667  L.AREA      
+##  2 55628     Kolb… Kolbiyow  Kolbiyow       -1.25055 41.49477  H.STMI      
+##  3 55628     Kolb… Kolbiyow  Lac Chinoti    -1.25055 41.49477  H.STMI      
+##  4 55628     Kolb… Kolbiyow  Lac Colbio     -1.25055 41.49477  H.STMI      
+##  5 55628     Kolb… Kolbiyow  Lac Colbìo     -1.25055 41.49477  H.STMI      
+##  6 55628     Kolb… Kolbiyow  Lac Gifta Bura -1.25055 41.49477  H.STMI      
+##  7 55628     Kolb… Kolbiyow  Lac Kolbio     -1.25055 41.49477  H.STMI      
+##  8 55628     Kolb… Kolbiyow  Lach Colbio    -1.25055 41.49477  H.STMI      
+##  9 55628     Kolb… Kolbiyow  Lach Gif-ta B… -1.25055 41.49477  H.STMI      
+## 10 55628     Kolb… Kolbiyow  Laga Kalbio    -1.25055 41.49477  H.STMI      
+## # ... with 38,999 more rows, and 12 more variables: iso &lt;chr&gt;, cc2 &lt;chr&gt;,
+## #   admin1_code &lt;chr&gt;, admin2_code &lt;chr&gt;, admin3_code &lt;chr&gt;,
+## #   admin4_code &lt;chr&gt;, population &lt;chr&gt;, elevation &lt;chr&gt;, dem &lt;int&gt;,
+## #   timezone &lt;chr&gt;, modification_date &lt;date&gt;, download_date &lt;date&gt;</code></pre>
 </div>
 <div id="feature-codes" class="section level3">
 <h3 class="hasAnchor">
@@ -241,26 +270,26 @@
 </ul>
 <p>Note that the original featurecode table concatenated the class and feature code as in the examples above, but in the actual country and <code>allcountries</code> files they are separated into <code>feature_class</code> and <code>feature_code</code>. This makes joining awkward. To solve this a new field called <code>feature_full</code> is created at import while dropping the feature_class and feature code fields to prevent duplicates when joining. That is simpler than it sounds.</p>
 <p>To view the featurecodes use:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">featurecodes</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">featurecodes</a></code></pre></div>
 <pre><code>## # A tibble: 671 x 7
-##    feature_full feature_class feature_code feature_name   feature_detail  
-##    &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;           
-##  1 A.ADM1       A             ADM1         first-order a… a primary admin…
-##  2 A.ADM1H      A             ADM1H        historical fi… a former first-…
-##  3 A.ADM2       A             ADM2         second-order … a subdivision o…
-##  4 A.ADM2H      A             ADM2H        historical se… a former second…
-##  5 A.ADM3       A             ADM3         third-order a… a subdivision o…
-##  6 A.ADM3H      A             ADM3H        historical th… a former third-…
-##  7 A.ADM4       A             ADM4         fourth-order … a subdivision o…
-##  8 A.ADM4H      A             ADM4H        historical fo… a former fourth…
-##  9 A.ADM5       A             ADM5         fifth-order a… a subdivision o…
-## 10 A.ADM5H      A             ADM5H        historical fi… a former fifth-…
+##    feature_full feature_class feature_code feature_name feature_detail
+##    &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;         
+##  1 A.ADM1       A             ADM1         first-order… a primary adm…
+##  2 A.ADM1H      A             ADM1H        historical … a former firs…
+##  3 A.ADM2       A             ADM2         second-orde… a subdivision…
+##  4 A.ADM2H      A             ADM2H        historical … a former seco…
+##  5 A.ADM3       A             ADM3         third-order… a subdivision…
+##  6 A.ADM3H      A             ADM3H        historical … a former thir…
+##  7 A.ADM4       A             ADM4         fourth-orde… a subdivision…
+##  8 A.ADM4H      A             ADM4H        historical … a former four…
+##  9 A.ADM5       A             ADM5         fifth-order… a subdivision…
+## 10 A.ADM5H      A             ADM5H        historical … a former fift…
 ## # ... with 661 more rows, and 2 more variables: feature_clean &lt;chr&gt;,
 ## #   multi &lt;lgl&gt;</code></pre>
 <p>To join the featurecodes table onto a dataset you could use:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">KE &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(KE, places<span class="op">::</span>featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">KE <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">KE &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(KE, places<span class="op">::</span>featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">KE <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
 <pre><code>## # A tibble: 29,598 x 5
 ##    feature_full feature_name        name             longitude latitude
 ##    &lt;chr&gt;        &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;   
@@ -284,27 +313,26 @@
 <li>MULTI A logical field indicating whether the feature_clean fields contains multi word phrases (TRUE)</li>
 </ul>
 <p>You may wish to join this table to the main table or to investigate the codes to use as filters. The feature code for a mountain is “MT” but to get all mountainous features you may need to look up other codes (e.g. MTS and MTU)</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">KE <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(feature_code <span class="op">==</span><span class="st"> "MT"</span> <span class="op">|</span><span class="st"> </span>feature_code <span class="op">==</span><span class="st"> "MTS"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">KE <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(feature_code <span class="op">==</span><span class="st"> "MT"</span> <span class="op">|</span><span class="st"> </span>feature_code <span class="op">==</span><span class="st"> "MTS"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 581 x 25
-##    geonameid name    asciiname  alternatenames          latitude longitude
-##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;                   &lt;chr&gt;    &lt;chr&gt;    
-##  1 58869     Bur Ga… Bur Gause  Bur Gause,Bur Gavse,Bu… 3.77299  41.75744 
-##  2 150859    Oldoin… Oldoinyo … Ol Doinyo Orok,Oldoiny… -2.49465 36.75141 
-##  3 156053    Latema  Latema     Latema                  -3.40372 37.61818 
-##  4 177903    Zongol… Zongoloni  Yongalini,Zongoloni     -3.54751 38.41325 
-##  5 177906    Zombo   Zombo      Jombo,Zombo             -4.43559 39.21184 
-##  6 177934    Zagati… Zagatisi   &lt;NA&gt;                    -3.63819 38.52782 
-##  7 178030    Yamany… Yamanyani  &lt;NA&gt;                    -3.07708 38.46462 
-##  8 178033    Yamalu  Yamalu     &lt;NA&gt;                    -2.03518 38.33162 
-##  9 178048    Lakade… Lakadema   Lacadema,Lagadema,Laka… 0.56193  38.09528 
-## 10 178065    Wyisa   Wyisa      Wyiga,Wyisa             1.58756  35.3808  
-## # ... with 571 more rows, and 19 more variables: feature_full &lt;chr&gt;,
-## #   iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;, admin2_code &lt;chr&gt;,
-## #   admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;, population &lt;chr&gt;,
-## #   elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;, modification_date &lt;date&gt;,
-## #   download_date &lt;date&gt;, feature_class &lt;chr&gt;, feature_code &lt;chr&gt;,
-## #   feature_name &lt;chr&gt;, feature_detail &lt;chr&gt;, feature_clean &lt;chr&gt;,
-## #   multi &lt;lgl&gt;</code></pre>
+##    geonameid name  asciiname alternatenames latitude longitude feature_full
+##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;       
+##  1 58869     Bur … Bur Gause Bur Gause,Bur… 3.77299  41.75744  T.MT        
+##  2 150859    Oldo… Oldoinyo… Ol Doinyo Oro… -2.49465 36.75141  T.MT        
+##  3 156053    Late… Latema    Latema         -3.40372 37.61818  T.MT        
+##  4 177903    Zong… Zongoloni Yongalini,Zon… -3.54751 38.41325  T.MT        
+##  5 177906    Zombo Zombo     Jombo,Zombo    -4.43559 39.21184  T.MT        
+##  6 177934    Zaga… Zagatisi  &lt;NA&gt;           -3.63819 38.52782  T.MT        
+##  7 178030    Yama… Yamanyani &lt;NA&gt;           -3.07708 38.46462  T.MT        
+##  8 178033    Yama… Yamalu    &lt;NA&gt;           -2.03518 38.33162  T.MT        
+##  9 178048    Laka… Lakadema  Lacadema,Laga… 0.56193  38.09528  T.MT        
+## 10 178065    Wyisa Wyisa     Wyiga,Wyisa    1.58756  35.3808   T.MT        
+## # ... with 571 more rows, and 18 more variables: iso &lt;chr&gt;, cc2 &lt;chr&gt;,
+## #   admin1_code &lt;chr&gt;, admin2_code &lt;chr&gt;, admin3_code &lt;chr&gt;,
+## #   admin4_code &lt;chr&gt;, population &lt;chr&gt;, elevation &lt;chr&gt;, dem &lt;int&gt;,
+## #   timezone &lt;chr&gt;, modification_date &lt;date&gt;, download_date &lt;date&gt;,
+## #   feature_class &lt;chr&gt;, feature_code &lt;chr&gt;, feature_name &lt;chr&gt;,
+## #   feature_detail &lt;chr&gt;, feature_clean &lt;chr&gt;, multi &lt;lgl&gt;</code></pre>
 </div>
 <div id="regions-sub-regions-intermediate-regions-and-continents" class="section level3">
 <h3 class="hasAnchor">
@@ -315,7 +343,7 @@
 <li>World Bank regional divisions (through the World Development Indicators (<a href="https://github.com/vincentarelbundock/WDI">WDI</a>) package).</li>
 </ol>
 <p>You can call these table directly:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">unregions</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">unregions</a></code></pre></div>
 <pre><code>## # A tibble: 249 x 15
 ##    un_global_code un_global_name un_region_code un_region_name
 ##             &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;         
@@ -337,7 +365,7 @@
 ## #   un_small_island_developing_states_sids &lt;int&gt;,
 ## #   un_developed_or_developing_countries &lt;chr&gt;</code></pre>
 <p>For the World Bank WDI indicators from the WDI package:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">wdicountry</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">wdicountry</a></code></pre></div>
 <pre><code>## # A tibble: 304 x 3
 ##    iso3  wb_region                  wb_income          
 ##    &lt;chr&gt; &lt;chr&gt;                      &lt;chr&gt;              
@@ -355,7 +383,7 @@
 <p>Additional regional information is available from the countrycode package and may be incorporated into places in future.</p>
 <p>The two regional tables are combined with selected fields from the geonames countryinfo table.</p>
 <p>The regions file can be called as follows:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">regions</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">regions</a></code></pre></div>
 <pre><code>## # A tibble: 249 x 22
 ##    un_global_code un_global_name un_region_code un_region_name
 ##             &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;         
@@ -379,7 +407,7 @@
 ## #   iso_numeric &lt;chr&gt;, fips &lt;chr&gt;, country &lt;chr&gt;, geonameid &lt;int&gt;,
 ## #   wb_region &lt;chr&gt;, wb_income &lt;chr&gt;</code></pre>
 <p>To join the regions table with a set of results try:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">df &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">df &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
 </div>
 </div>
   </div>
