@@ -47,7 +47,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/wipo-analytics/places">
+  <a href="https://github.com/poldham/places">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -71,34 +71,40 @@
 <hr>
 <p><a href="https://cran.r-project.org/"><img src="https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg" alt="minimal R version"></a> <a href="https://cran.r-project.org/package=places"><img src="http://www.r-pkg.org/badges/version/places" alt="CRAN_Status_Badge"></a> <a href="commits/master"><img src="https://img.shields.io/badge/Package%20version-0.0.0.9000-orange.svg?style=flat-square" alt="packageversion"></a></p>
 <hr>
-<p><a href="/commits/master"><img src="https://img.shields.io/badge/last%20change-2018--06--13-yellowgreen.svg" alt="Last-changedate"></a></p>
+<p><a href="/commits/master"><img src="https://img.shields.io/badge/last%20change-2018--08--01-yellowgreen.svg" alt="Last-changedate"></a></p>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>The <code>places</code> package provides access to the daily data files from the <a href="http://download.geonames.org/export/dump/">geonames data dump</a>. The aim of the package is to make the geonames dump consisting of over 11 million place names available for large scale mapping or text mining projects involving multiple countries or world regions.</p>
+<p>The <code>places</code> package provides access to the daily data files from the <a href="http://download.geonames.org/export/dump/">geonames data dump</a>. The aim of the package is to make the geonames dump consisting of over 11 million place names with geographic coordinates available for large scale mapping or text mining projects involving multiple countries or world regions.</p>
 <p><code>places</code> is intended to complement the <a href="https://github.com/ropensci/geonames">rOpenSci <code>geonames()</code> package</a> by Barry Rowlingson. The geonames package provides access to the geonames API and is recommended for smaller scale projects. The <code>places</code> package is better suited for larger scale projects involving text mining and mapping place names from literature or other projects involving federating different kinds of data with geoinformation at scale. The package also adds additional tables that make it easier to select subsets of data for geographic regions or subregions or economic status using United Nations and World Bank datasets.</p>
 <p>The purpose of this walk through is to take you through how to access the data, what is available, and decisions on issues such as tidying the data.</p>
+</div>
+<div id="installing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installing" class="anchor"></a>Installing</h2>
+<p>places is not on CRAN but can be installed from Github with devtools:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"poldham/places"</span>)</a></code></pre></div>
 </div>
 <div id="the-geonames-data-dump" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-geonames-data-dump" class="anchor"></a>The geonames data dump</h2>
 <p>The geonames dump is a set of daily dump files available from the export home page <a href="http://download.geonames.org/export/dump/" class="uri">http://download.geonames.org/export/dump/</a>. This page provides .zip files for individual country data along with other data files (such as alternate names) in text files and links to other directories. The mix of files makes it messy to work with.</p>
 <p>The <code><a href="reference/places_table.html">places_table()</a></code> function downloads and parses the page into a tibble to make it easier to work with.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(places)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="reference/places_table.html">places_table</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(places)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="reference/places_table.html">places_table</a></span>()</a></code></pre></div>
 <pre><code>## # A tibble: 283 x 9
 ##    name   last_modified size  description file_name file_type url    iso  
 ##    &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
-##  1 AD.zip 2018-06-12 0… 89K   &lt;NA&gt;        AD        zip       http:… AD   
-##  2 AE.zip 2018-06-12 0… 235K  &lt;NA&gt;        AE        zip       http:… AE   
-##  3 AF.zip 2018-06-12 0… 4.5M  &lt;NA&gt;        AF        zip       http:… AF   
-##  4 AG.zip 2018-06-12 0… 25K   &lt;NA&gt;        AG        zip       http:… AG   
-##  5 AI.zip 2018-06-12 0… 10K   &lt;NA&gt;        AI        zip       http:… AI   
-##  6 AL.zip 2018-06-12 0… 299K  &lt;NA&gt;        AL        zip       http:… AL   
-##  7 AM.zip 2018-06-12 0… 1.0M  &lt;NA&gt;        AM        zip       http:… AM   
-##  8 AN.zip 2018-06-12 0… 3.8K  &lt;NA&gt;        AN        zip       http:… AN   
-##  9 AO.zip 2018-06-12 0… 1.1M  &lt;NA&gt;        AO        zip       http:… AO   
-## 10 AQ.zip 2018-06-12 0… 523K  &lt;NA&gt;        AQ        zip       http:… AQ   
+##  1 AD.zip 2018-07-31 0… 89K   &lt;NA&gt;        AD        zip       http:… AD   
+##  2 AE.zip 2018-07-31 0… 236K  &lt;NA&gt;        AE        zip       http:… AE   
+##  3 AF.zip 2018-07-31 0… 4.5M  &lt;NA&gt;        AF        zip       http:… AF   
+##  4 AG.zip 2018-07-31 0… 26K   &lt;NA&gt;        AG        zip       http:… AG   
+##  5 AI.zip 2018-07-31 0… 10K   &lt;NA&gt;        AI        zip       http:… AI   
+##  6 AL.zip 2018-07-31 0… 300K  &lt;NA&gt;        AL        zip       http:… AL   
+##  7 AM.zip 2018-07-31 0… 1.0M  &lt;NA&gt;        AM        zip       http:… AM   
+##  8 AN.zip 2018-07-31 0… 3.8K  &lt;NA&gt;        AN        zip       http:… AN   
+##  9 AO.zip 2018-07-31 0… 1.1M  &lt;NA&gt;        AO        zip       http:… AO   
+## 10 AQ.zip 2018-07-31 0… 523K  &lt;NA&gt;        AQ        zip       http:… AQ   
 ## # ... with 273 more rows, and 1 more variable: other &lt;chr&gt;</code></pre>
 <p>The original <a href="http://download.geonames.org/export/dump/">table</a> contained the following columns:</p>
 <ul>
@@ -113,48 +119,48 @@
 <h2 class="hasAnchor">
 <a href="#looking-up-countries" class="anchor"></a>Looking Up Countries</h2>
 <p>The geonames data mainly works on two letter country codes (variously called iso and iso2c). Country names can be expressed in all kinds of different ways. If you don’t know the two letter country code you can look it up with <code><a href="reference/places_lookup.html">places_lookup()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="st">"Kenya"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="st">"Kenya"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   Kenya
 ##   &lt;chr&gt;
 ## 1 KE</code></pre>
 <p>We can also look up ambiguous names:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="kw">c</span>(<span class="st">"Peoples republic of china"</span>, <span class="st">"Viet Nam"</span>, <span class="st">"Vietnam"</span>, <span class="st">"Lao"</span>, <span class="st">"Laos"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_lookup">places_lookup</a></span>(<span class="kw">c</span>(<span class="st">"Peoples republic of china"</span>, <span class="st">"Viet Nam"</span>, <span class="st">"Vietnam"</span>, <span class="st">"Lao"</span>, <span class="st">"Laos"</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   `Peoples Republic Of China` `Viet Nam` Vietnam Lao   Laos 
 ##   &lt;chr&gt;                       &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
 ## 1 CN                          VN         VN      LA    LA</code></pre>
 <p>Behind the scenes the name matching is handled by the <a href="https://github.com/vincentarelbundock/countrycode">countrycode</a> package by Vincent Arul Bundock and collaborators. Country names can be expressed in all kinds of different ways and the countrycode package does a good job of recognising them. At present the places package only implements country names in English.</p>
 <p>We use the countrycode package for lookup because of its flexibility. However, Geonames produces its own <a href="http://download.geonames.org/export/dump/countryInfo.txt">countryinfo table</a> that can be imported as follows.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">countryinfo &lt;-<span class="st"> </span>places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_countryinfo">places_countryinfo</a></span>()</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">countryinfo</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">countryinfo &lt;-<span class="st"> </span>places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_countryinfo">places_countryinfo</a></span>()</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">countryinfo</a></code></pre></div>
 <pre><code>## # A tibble: 252 x 19
 ##    iso   iso3  isonumeric fips  country   capital area_in_sq_km population
 ##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;      &lt;int&gt;
-##  1 AD    AND   020        AN    Andorra   Andorr…          468.      84000
-##  2 AE    ARE   784        AE    United A… Abu Dh…        82880.    4975593
-##  3 AF    AFG   004        AF    Afghanis… Kabul         647500.   29121286
-##  4 AG    ATG   028        AC    Antigua … St. Jo…          443.      86754
-##  5 AI    AIA   660        AV    Anguilla  The Va…          102.      13254
-##  6 AL    ALB   008        AL    Albania   Tirana         28748.    2986952
-##  7 AM    ARM   051        AM    Armenia   Yerevan        29800.    2968000
-##  8 AO    AGO   024        AO    Angola    Luanda       1246700.   13068161
-##  9 AQ    ATA   010        AY    Antarcti… &lt;NA&gt;        14000000.          0
-## 10 AR    ARG   032        AR    Argentina Buenos…      2766890.   41343201
+##  1 AD    AND   020        AN    Andorra   Andorr…           468      84000
+##  2 AE    ARE   784        AE    United A… Abu Dh…         82880    4975593
+##  3 AF    AFG   004        AF    Afghanis… Kabul          647500   29121286
+##  4 AG    ATG   028        AC    Antigua … St. Jo…           443      86754
+##  5 AI    AIA   660        AV    Anguilla  The Va…           102      13254
+##  6 AL    ALB   008        AL    Albania   Tirana          28748    2986952
+##  7 AM    ARM   051        AM    Armenia   Yerevan         29800    2968000
+##  8 AO    AGO   024        AO    Angola    Luanda        1246700   13068161
+##  9 AQ    ATA   010        AY    Antarcti… &lt;NA&gt;         14000000          0
+## 10 AR    ARG   032        AR    Argentina Buenos…       2766890   41343201
 ## # ... with 242 more rows, and 11 more variables: continent &lt;chr&gt;,
 ## #   tld &lt;chr&gt;, currencycode &lt;chr&gt;, currencyname &lt;chr&gt;, phone &lt;chr&gt;,
 ## #   postal_code_format &lt;chr&gt;, postal_code_regex &lt;chr&gt;, languages &lt;chr&gt;,
 ## #   geonameid &lt;int&gt;, neighbours &lt;chr&gt;, equivalentfipscode &lt;chr&gt;</code></pre>
-<p>The advantage of this table is that it includes information such as the capital city, the area in square kilometres, the population of the capital city, continent and so on. Some of this data included in the <code>regions</code> table (below). However, for general lookup of country names <code><a href="reference/places_lookup.html">places_lookup()</a></code> will be more flexible and forgiving.</p>
+<p>The advantage of this table is that it includes information such as the capital city, the area in square kilometres, the population of the capital city, continent and so on. Some of this data is included in the <code>regions</code> table (below). However, for general lookup of country names <code><a href="reference/places_lookup.html">places_lookup()</a></code> will be more flexible and forgiving.</p>
 </div>
 <div id="individual-country-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#individual-country-data" class="anchor"></a>Individual Country data</h2>
-<p>You can import the latest data for an individual country using <code><a href="reference/places_import.html">places_import()</a></code>. The main focus here is on the use of iso two letter country codes. A <code>download_date</code> column is added by default to assist with keeping track of the file history.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">code =</span> <span class="st">"KE"</span>)</a></code></pre></div>
+<p>You can download the latest raw data for an individual country using <code><a href="reference/places_download.html">places_download()</a></code> and import it as a data frame with tidy column names using <code><a href="reference/places_import.html">places_import()</a></code>. A <code>download_date</code> column is added by default to assist with keeping track of the file history.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">KE &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">code =</span> <span class="st">"KE"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>()</a></code></pre></div>
 <pre><code>## [1] "http://download.geonames.org/export/dump/KE.zip"</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">KE</a></code></pre></div>
-<pre><code>## # A tibble: 29,598 x 19
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">KE</a></code></pre></div>
+<pre><code>## # A tibble: 29,613 x 19
 ##    geonameid name   asciiname  alternatenames           latitude longitude
 ##    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;                    &lt;chr&gt;    &lt;chr&gt;    
 ##  1 54121     Mata … Mata Arba  &lt;NA&gt;                     -0.67472 40.97667 
@@ -167,19 +173,138 @@
 ##  8 150177    Schlo… Schlobach  Schlobach                -3.35848 37.66424 
 ##  9 150859    Oldoi… Oldoinyo … Ol Doinyo Orok,Oldoinyo… -2.49465 36.75141 
 ## 10 151987    Naman… Namanga    Namanga                  -2.6785  37.01915 
-## # ... with 29,588 more rows, and 13 more variables: feature_full &lt;chr&gt;,
+## # ... with 29,603 more rows, and 13 more variables: feature_class &lt;chr&gt;,
+## #   feature_code &lt;chr&gt;, iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;,
+## #   admin2_code &lt;chr&gt;, admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;,
+## #   population &lt;chr&gt;, elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;,
+## #   modification_date &lt;date&gt;</code></pre>
+<p>You can use either the two letter country code or the country name for import.</p>
+<p>To help you keep track the download date is automatically addess to the table.</p>
+<p><code><a href="reference/places_download.html">places_download()</a></code> is not vectorised and only handles one country file at a time. For multiple countries or regions it is easier to work with the <code>allcountries</code> table.</p>
+<div id="all-countries" class="section level3">
+<h3 class="hasAnchor">
+<a href="#all-countries" class="anchor"></a>All Countries</h3>
+<p>Geonames produces a daily file containing the data for all countries. The <code>allcountries</code> daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed.</p>
+<p>For many purposes you may be happy with a highly compressed archive of the allcountries file. The archive was created on the 1st of January 2018 as a .rda file and is a 257MB compressed .rda file that can be called with:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="reference/places_archive.html">places_archive</a></span>()</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">load</span>(<span class="st">"allcountries.rda"</span>)</a></code></pre></div>
+<p>This will take a few minutes to download and then to load… so maybe take a break for a cup of tea.</p>
+<p>If you would like to retrieve the latest data file, use:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">allcountries &lt;-<span class="st"> </span><span class="kw"><a href="reference/places_download.html">places_download</a></span>(<span class="dt">country =</span> <span class="st">"all"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/places_import.html">places_import</a></span>()</a></code></pre></div>
+<p>You may want to have a cup of tea while waiting for this.</p>
+</div>
+<div id="place-names" class="section level3">
+<h3 class="hasAnchor">
+<a href="#place-names" class="anchor"></a>Place names</h3>
+<p>The geonames tables contains three name fields. The asciiname is the most useful for text mining and you may want to take a look at the alternatenames field for known variants. The built in Kenya dataset (KE) can be useful for getting to grips with the data.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">places<span class="op">::</span>KE <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw">separate_rows</span>(alternatenames, <span class="dt">sep =</span> <span class="st">","</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 39,009 x 19
+##    geonameid name      asciiname alternatenames   latitude longitude
+##    &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;    
+##  1 54121     Mata Arba Mata Arba &lt;NA&gt;             -0.67472 40.97667 
+##  2 55628     Kolbiyow  Kolbiyow  Kolbiyow         -1.25055 41.49477 
+##  3 55628     Kolbiyow  Kolbiyow  Lac Chinoti      -1.25055 41.49477 
+##  4 55628     Kolbiyow  Kolbiyow  Lac Colbio       -1.25055 41.49477 
+##  5 55628     Kolbiyow  Kolbiyow  Lac Colbìo       -1.25055 41.49477 
+##  6 55628     Kolbiyow  Kolbiyow  Lac Gifta Bura   -1.25055 41.49477 
+##  7 55628     Kolbiyow  Kolbiyow  Lac Kolbio       -1.25055 41.49477 
+##  8 55628     Kolbiyow  Kolbiyow  Lach Colbio      -1.25055 41.49477 
+##  9 55628     Kolbiyow  Kolbiyow  Lach Gif-ta Bura -1.25055 41.49477 
+## 10 55628     Kolbiyow  Kolbiyow  Laga Kalbio      -1.25055 41.49477 
+## # ... with 38,999 more rows, and 13 more variables: feature_full &lt;chr&gt;,
 ## #   iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;, admin2_code &lt;chr&gt;,
 ## #   admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;, population &lt;chr&gt;,
 ## #   elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;, modification_date &lt;date&gt;,
 ## #   download_date &lt;date&gt;</code></pre>
-<p>Note that <code><a href="reference/places_import.html">places_import()</a></code> is not vectorised and only handles one country file at a time. For multiple countries or regions it is easier to work with the allcountries table.</p>
-<div id="all-countries" class="section level3">
+</div>
+<div id="feature-codes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#all-countries" class="anchor"></a>All Countries</h3>
-<p>Geonames produces a daily file containing the data for all countries. The <code>allcountries</code> daily file contains over 11 million place names in a +330MB compressed file that is 1.4Gb when uncompressed. You can import the latest daily file with:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="reference/places_import.html">places_import</a></span>(<span class="dt">country =</span> <span class="st">"all"</span>)</a></code></pre></div>
-<p>If you run into problems for whatever reason an archive version of a daily dump file from the 1st of January 2018 is available for download. This will load into your global environment as <code>allcountries</code>. This file is intended to be used as a stable reference set.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">places<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/places/topics/places_all">places_all</a></span>()</a></code></pre></div>
+<a href="#feature-codes" class="anchor"></a>Feature Codes</h3>
+<p>Geonames uses <a href="http://www.geonames.org/export/codes.html">feature codes</a> to describe the georeferenced data. Feature codes are divided between classes and codes. The classes are as follows:</p>
+<ul>
+<li>A Administrative Boundary Features</li>
+<li>H Hydrographic Features</li>
+<li>L Area Features</li>
+<li>P Populated Place Features</li>
+<li>R Road / Railroad Features</li>
+<li>S Spot Features</li>
+<li>T Hypsographic Features</li>
+<li>U Undersea Features</li>
+<li>V Vegetation Features</li>
+</ul>
+<p>An example of a corresponding code is:</p>
+<ul>
+<li>H.ANCH anchorage</li>
+<li>R.OILP oil pipeline</li>
+</ul>
+<p>Note that the original featurecode table concatenated the class and feature code as in the examples above, but in the actual country and <code>allcountries</code> files they are separated into <code>feature_class</code> and <code>feature_code</code>. This makes joining awkward. To solve this a new field called <code>feature_full</code> is created at import while dropping the feature_class and feature code fields to prevent duplicates when joining. That is simpler than it sounds.</p>
+<p>To view the featurecodes use:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">featurecodes</a></code></pre></div>
+<pre><code>## # A tibble: 671 x 7
+##    feature_full feature_class feature_code feature_name   feature_detail  
+##    &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;           
+##  1 A.ADM1       A             ADM1         first-order a… a primary admin…
+##  2 A.ADM1H      A             ADM1H        historical fi… a former first-…
+##  3 A.ADM2       A             ADM2         second-order … a subdivision o…
+##  4 A.ADM2H      A             ADM2H        historical se… a former second…
+##  5 A.ADM3       A             ADM3         third-order a… a subdivision o…
+##  6 A.ADM3H      A             ADM3H        historical th… a former third-…
+##  7 A.ADM4       A             ADM4         fourth-order … a subdivision o…
+##  8 A.ADM4H      A             ADM4H        historical fo… a former fourth…
+##  9 A.ADM5       A             ADM5         fifth-order a… a subdivision o…
+## 10 A.ADM5H      A             ADM5H        historical fi… a former fifth-…
+## # ... with 661 more rows, and 2 more variables: feature_clean &lt;chr&gt;,
+## #   multi &lt;lgl&gt;</code></pre>
+<p>To join the featurecodes table onto a dataset you could use:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">KE &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(KE, places<span class="op">::</span>featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">KE <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
+<pre><code>## # A tibble: 29,598 x 5
+##    feature_full feature_name        name             longitude latitude
+##    &lt;chr&gt;        &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;   
+##  1 L.AREA       area                Mata Arba        40.97667  -0.67472
+##  2 H.STMI       intermittent stream Kolbiyow         41.49477  -1.25055
+##  3 T.MT         mountain            Bur Gause        41.75744  3.77299 
+##  4 T.HLL        hill                Did Songa        41.26667  -1.2    
+##  5 H.STM        stream              Umba             39.22688  -4.66354
+##  6 H.STM        stream              Musangairo       37.6457   -2.96965
+##  7 T.PLN        plain(s)            Serengeti Plains 37.92541  -3.42386
+##  8 T.HLL        hill                Schlobach        37.66424  -3.35848
+##  9 T.MT         mountain            Oldoinyo Orok    36.75141  -2.49465
+## 10 H.STMI       intermittent stream Namanga          37.01915  -2.6785 
+## # ... with 29,588 more rows</code></pre>
+<p>The <code>featurecodes</code> table, includes the feature code table divided into four columns that were parsed from the original file.</p>
+<ul>
+<li>feature_full (for joining)</li>
+<li>feature name (the short description)</li>
+<li>feature detail (a longer description)</li>
+<li>feature_clean (basic cleaning on the feature name to remove plurals such as forest(s))</li>
+<li>MULTI A logical field indicating whether the feature_clean fields contains multi word phrases (TRUE)</li>
+</ul>
+<p>You may wish to join this table to the main table or to investigate the codes to use as filters. The feature code for a mountain is “MT” but to get all mountainous features you may need to look up other codes (e.g. MTS and MTU)</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">KE <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(feature_code <span class="op">==</span><span class="st"> "MT"</span> <span class="op">|</span><span class="st"> </span>feature_code <span class="op">==</span><span class="st"> "MTS"</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 581 x 25
+##    geonameid name    asciiname  alternatenames          latitude longitude
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;                   &lt;chr&gt;    &lt;chr&gt;    
+##  1 58869     Bur Ga… Bur Gause  Bur Gause,Bur Gavse,Bu… 3.77299  41.75744 
+##  2 150859    Oldoin… Oldoinyo … Ol Doinyo Orok,Oldoiny… -2.49465 36.75141 
+##  3 156053    Latema  Latema     Latema                  -3.40372 37.61818 
+##  4 177903    Zongol… Zongoloni  Yongalini,Zongoloni     -3.54751 38.41325 
+##  5 177906    Zombo   Zombo      Jombo,Zombo             -4.43559 39.21184 
+##  6 177934    Zagati… Zagatisi   &lt;NA&gt;                    -3.63819 38.52782 
+##  7 178030    Yamany… Yamanyani  &lt;NA&gt;                    -3.07708 38.46462 
+##  8 178033    Yamalu  Yamalu     &lt;NA&gt;                    -2.03518 38.33162 
+##  9 178048    Lakade… Lakadema   Lacadema,Lagadema,Laka… 0.56193  38.09528 
+## 10 178065    Wyisa   Wyisa      Wyiga,Wyisa             1.58756  35.3808  
+## # ... with 571 more rows, and 19 more variables: feature_full &lt;chr&gt;,
+## #   iso &lt;chr&gt;, cc2 &lt;chr&gt;, admin1_code &lt;chr&gt;, admin2_code &lt;chr&gt;,
+## #   admin3_code &lt;chr&gt;, admin4_code &lt;chr&gt;, population &lt;chr&gt;,
+## #   elevation &lt;chr&gt;, dem &lt;int&gt;, timezone &lt;chr&gt;, modification_date &lt;date&gt;,
+## #   download_date &lt;date&gt;, feature_class &lt;chr&gt;, feature_code &lt;chr&gt;,
+## #   feature_name &lt;chr&gt;, feature_detail &lt;chr&gt;, feature_clean &lt;chr&gt;,
+## #   multi &lt;lgl&gt;</code></pre>
 </div>
 <div id="regions-sub-regions-intermediate-regions-and-continents" class="section level3">
 <h3 class="hasAnchor">
@@ -190,7 +315,7 @@
 <li>World Bank regional divisions (through the World Development Indicators (<a href="https://github.com/vincentarelbundock/WDI">WDI</a>) package).</li>
 </ol>
 <p>You can call these table directly:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">unregions</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">unregions</a></code></pre></div>
 <pre><code>## # A tibble: 249 x 15
 ##    un_global_code un_global_name un_region_code un_region_name
 ##             &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;         
@@ -211,8 +336,8 @@
 ## #   un_land_locked_developing_countries_lldc &lt;int&gt;,
 ## #   un_small_island_developing_states_sids &lt;int&gt;,
 ## #   un_developed_or_developing_countries &lt;chr&gt;</code></pre>
-<p>For the World Bank WDI indicators</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">wdicountry</a></code></pre></div>
+<p>For the World Bank WDI indicators from the WDI package:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">wdicountry</a></code></pre></div>
 <pre><code>## # A tibble: 304 x 3
 ##    iso3  wb_region                  wb_income          
 ##    &lt;chr&gt; &lt;chr&gt;                      &lt;chr&gt;              
@@ -230,7 +355,7 @@
 <p>Additional regional information is available from the countrycode package and may be incorporated into places in future.</p>
 <p>The two regional tables are combined with selected fields from the geonames countryinfo table.</p>
 <p>The regions file can be called as follows:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">regions</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">regions</a></code></pre></div>
 <pre><code>## # A tibble: 249 x 22
 ##    un_global_code un_global_name un_region_code un_region_name
 ##             &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;         
@@ -254,72 +379,7 @@
 ## #   iso_numeric &lt;chr&gt;, fips &lt;chr&gt;, country &lt;chr&gt;, geonameid &lt;int&gt;,
 ## #   wb_region &lt;chr&gt;, wb_income &lt;chr&gt;</code></pre>
 <p>To join the regions table with a set of results try:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">df &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
-</div>
-<div id="feature-codes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#feature-codes" class="anchor"></a>Feature Codes</h3>
-<p>Geonames uses <a href="http://www.geonames.org/export/codes.html">feature codes</a> to describe the georeferenced data. Feature codes are divided between classes and codes. The classes are as follows:</p>
-<ul>
-<li>A Administrative Boundary Features</li>
-<li>H Hydrographic Features</li>
-<li>L Area Features</li>
-<li>P Populated Place Features</li>
-<li>R Road / Railroad Features</li>
-<li>S Spot Features</li>
-<li>T Hypsographic Features</li>
-<li>U Undersea Features</li>
-<li>V Vegetation Features</li>
-</ul>
-<p>An example of a corresponding code is:</p>
-<ul>
-<li>H.ANCH anchorage</li>
-<li>R.OILP oil pipeline</li>
-</ul>
-<p>To view the featurecodes use:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">featurecodes</a></code></pre></div>
-<pre><code>## # A tibble: 671 x 7
-##    feature_full feature_class feature_code feature_name   feature_detail  
-##    &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;           
-##  1 A.ADM1       A             ADM1         first-order a… a primary admin…
-##  2 A.ADM1H      A             ADM1H        historical fi… a former first-…
-##  3 A.ADM2       A             ADM2         second-order … a subdivision o…
-##  4 A.ADM2H      A             ADM2H        historical se… a former second…
-##  5 A.ADM3       A             ADM3         third-order a… a subdivision o…
-##  6 A.ADM3H      A             ADM3H        historical th… a former third-…
-##  7 A.ADM4       A             ADM4         fourth-order … a subdivision o…
-##  8 A.ADM4H      A             ADM4H        historical fo… a former fourth…
-##  9 A.ADM5       A             ADM5         fifth-order a… a subdivision o…
-## 10 A.ADM5H      A             ADM5H        historical fi… a former fifth-…
-## # ... with 661 more rows, and 2 more variables: feature_clean &lt;chr&gt;,
-## #   multi &lt;lgl&gt;</code></pre>
-<p>Note that the original featurecode table concatenated the class and feature code, but in the actual country and allcountries files they are separated into <code>feature_class</code> and <code>feature_code</code>. This makes joining awkward. To solve this a new field called <code>feature_full</code> is created at import while dropping the feature_class and feature code fields to prevent duplicates when joining. That is simpler than it sounds.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">KE &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(KE, places<span class="op">::</span>featurecodes, <span class="dt">by =</span> <span class="st">"feature_full"</span>)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">KE <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(feature_full, feature_name, name, longitude, latitude)</a></code></pre></div>
-<pre><code>## # A tibble: 29,598 x 5
-##    feature_full feature_name        name             longitude latitude
-##    &lt;chr&gt;        &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;   
-##  1 L.AREA       area                Mata Arba        40.97667  -0.67472
-##  2 H.STMI       intermittent stream Kolbiyow         41.49477  -1.25055
-##  3 T.MT         mountain            Bur Gause        41.75744  3.77299 
-##  4 T.HLL        hill                Did Songa        41.26667  -1.2    
-##  5 H.STM        stream              Umba             39.22688  -4.66354
-##  6 H.STM        stream              Musangairo       37.6457   -2.96965
-##  7 T.PLN        plain(s)            Serengeti Plains 37.92541  -3.42386
-##  8 T.HLL        hill                Schlobach        37.66424  -3.35848
-##  9 T.MT         mountain            Oldoinyo Orok    36.75141  -2.49465
-## 10 H.STMI       intermittent stream Namanga          37.01915  -2.6785 
-## # ... with 29,588 more rows</code></pre>
-<p>The <code>featurecodes</code> table, includes the feature code table divided into four columns that were parsed from the original file.</p>
-<ul>
-<li>feature_full (for joining)</li>
-<li>feature name (the short description)</li>
-<li>feature detail (a longer description)</li>
-<li>feature_clean (basic cleaning on the feature name to remove plurals such as forest(s))</li>
-<li>MULTI A logical field indicating whether the feature_clean fields contains multi word phrases (TRUE)</li>
-</ul>
-<p>You may wish to join this table to the main table or to investigate the codes and filter accordingly.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">df &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(df, regions, <span class="dt">by =</span> <span class="st">"iso"</span>)</a></code></pre></div>
 </div>
 </div>
   </div>
@@ -328,9 +388,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/wipo-analytics/places">https://​github.com/​wipo-analytics/​places</a>
+<li>Browse source code at <br><a href="https://github.com/poldham/places">https://​github.com/​poldham/​places</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/wipo-analytics/places/issues">https://​github.com/​wipo-analytics/​places/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/poldham/places/issues">https://​github.com/​poldham/​places/​issues</a>
 </li>
 </ul>
 </div>
@@ -345,7 +405,7 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Paul Oldham <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Paul Oldham <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1013-4390" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 </ul>
 </div>
 

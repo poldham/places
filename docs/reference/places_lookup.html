@@ -80,7 +80,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/wipo-analytics/places">
+  <a href="https://github.com/poldham/places">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -98,7 +98,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helper to look up Country Codes to Import</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wipo-analytics/places/blob/master/R/places_lookup.R'><code>R/places_lookup.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/poldham/places/blob/master/R/places_lookup.R'><code>R/places_lookup.R</code></a></small>
     <div class="hidden name"><code>places_lookup.Rd</code></div>
     </div>
 
@@ -129,7 +129,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function wraps the <a href='https://github.com/vincentarelbundock/countrycode'>countrycode</a> package on CRAN function <code><a href='http://www.rdocumentation.org/packages/countrycode/topics/countrycode'>countrycode</a></code></p><ul>
+    <p>The region, subregion and intermediate searches are mainly intdended for use with the allcountries table to group countries by United Nations regions. The function wraps the <a href='https://github.com/vincentarelbundock/countrycode'>countrycode</a> package on CRAN function <code><a href='http://www.rdocumentation.org/packages/countrycode/topics/countrycode'>countrycode</a></code></p><ul>
 <li><p>Africa</p></li>
 <li><p>Americas</p></li>
 <li><p>Asia</p></li>
@@ -175,7 +175,7 @@ two_names <- places_lookup(c("Kenya", "Tanzania"))
 upper <- places_lookup("Africa", type = "region")
 africa <- places_lookup("africa", type = "region"),
 central_asia <- places_lookup("Central Asia", type = "subregion"),
-caribbean <- places_lookup("Caribbean", type = "intermediate"),
+caribbean <- places_lookup("Caribbean", type = "intermediate")
 # }
 </pre>
   </div>

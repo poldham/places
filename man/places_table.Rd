@@ -3,6 +3,19 @@
 \name{places_table}
 \alias{places_table}
 \title{Import the latest geonames dump page}
+\format{{
+\describe{
+\item{\code{name}}{filename with extension, character}
+\item{\code{last modified}}{character}
+\item{\code{size}}{chr}
+\item{\code{description}}{character}
+\item{\code{filename}}{character}
+\item{\code{file type}}{character}
+\item{\code{url}}{character}
+\item{\code{iso}}{two letters iso country code, character}
+\item{\code{other}}{non iso files}
+}
+}}
 \usage{
 places_table()
 }

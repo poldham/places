@@ -2,26 +2,22 @@
 % Please edit documentation in R/places_import.R
 \name{places_import}
 \alias{places_import}
-\title{Import the latest Country data}
+\title{Import downloaded geonames files}
 \usage{
-places_import(country = NULL, code = NULL, path = NULL)
+places_import(file)
 }
 \arguments{
-\item{country}{A country name (use \code{\link{places_lookup}}). For all countries use "all" (note > 300 MB file).}
-
-\item{code}{A two letter iso country code (use \code{\link{places_lookup}})}
-
-\item{path}{For manually downloaded files as either zip or txt.}
+\item{file}{A character vector containing a file name with a .zip extension returned by \code{\link{places_download}}}
 }
 \value{
-a data.frame
+tibble
 }
 \description{
-Read in and process geonames data dump files into a data.frame.
-}
-\details{
-Column names are converted to lower, spaces replaced with underscores and brackets removed. download_date added to table with the users system date.
+Imports files downloaded with \code{\link{places_download}}
 }
 \examples{
-\dontrun{cc <- places_import(code = "AI")}
+\dontrun{AI <- places_download(code = "AI") \%>\% places_import()
+AI <- places_download(country = "Anguilla") \%>\% places_import()
+res <- places_download(code = AI)
+AI <- places_import(res)}
 }

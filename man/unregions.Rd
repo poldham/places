@@ -4,7 +4,8 @@
 \name{unregions}
 \alias{unregions}
 \title{United Nations Statistical Division Regions}
-\format{A data.frame with 15 variables \code{un_global_code}, \code{un_global_name}, \code{un_region_code}, \code{un_region_name}, \code{un_sub_region_code}, \code{un_sub_region_name}, \code{un_intermediate_region_code}, \code{un_intermediate_region_code}, \code{un_intermediate_region_name}, \code{un_country_or_area}, \code{un_m49_code}, \code{iso3}, \code{un_least_developed_countries_ldc}, \code{un_land_locked_developing_countries_lldc}, \code{un_small_island_developing_states_sids}, \code{un_developed_or_developing_countries}}
+\format{A data.frame with 15 variables \code{un_global_code}, \code{un_global_name}, \code{un_region_code}, \code{un_region_name}, \code{un_sub_region_code}, \code{un_sub_region_name}, \code{un_intermediate_region_code}, \code{un_intermediate_region_code}, \code{un_intermediate_region_name}, \code{un_country_or_area}, \code{un_m49_code}, \code{iso3}, \code{un_least_developed_countries_ldc}, \code{un_land_locked_developing_countries_lldc}, \code{un_small_island_developing_states_sids}, \code{un_developed_or_developing_countries}
+#' @examples regions}
 \source{
 \href{https://unstats.un.org/unsd/methodology/m49/overview/}{UNSD Regions M49}
 }

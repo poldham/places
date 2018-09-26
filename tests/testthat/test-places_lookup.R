@@ -12,10 +12,6 @@ test_that("two names works", {
 
 })
 
-# add warning message
-# test_that("warning if not found", {
-# })
-
 # These tests suffer from the problem of not being able to load the data
 
 # test_that("region works", {

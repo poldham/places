@@ -3,7 +3,7 @@
 #' @return data.frame
 #' @details Column names are converted to lowercase, spaces are replaced with underscores and brackets removed.
 #' @export
-#' @examples {places_countryinfo()}
+#' @examples \dontrun{places_countryinfo()}
 places_countryinfo <- function() {
  df <- readr::read_delim("http://download.geonames.org/export/dump/countryInfo.txt", skip = 50, delim = "\t", col_names = TRUE, col_types = readr::cols(
     `#ISO` = readr::col_character(),

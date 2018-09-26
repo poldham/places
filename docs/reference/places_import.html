@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import the latest Country data — places_import • places</title>
+<title>Import downloaded geonames files — places_import • places</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Import the latest Country data — places_import" />
+<meta property="og:title" content="Import downloaded geonames files — places_import" />
 
-<meta property="og:description" content="Read in and process geonames data dump files into a data.frame." />
+<meta property="og:description" content="Imports files downloaded with places_download" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -80,7 +80,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/wipo-analytics/places">
+  <a href="https://github.com/poldham/places">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -97,48 +97,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import the latest Country data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wipo-analytics/places/blob/master/R/places_import.R'><code>R/places_import.R</code></a></small>
+    <h1>Import downloaded geonames files</h1>
+    <small class="dont-index">Source: <a href='https://github.com/poldham/places/blob/master/R/places_import.R'><code>R/places_import.R</code></a></small>
     <div class="hidden name"><code>places_import.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read in and process geonames data dump files into a data.frame.</p>
+    <p>Imports files downloaded with <code><a href='places_download.html'>places_download</a></code></p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>places_import</span>(<span class='kw'>country</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>places_import</span>(<span class='no'>file</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>country</th>
-      <td><p>A country name (use <code><a href='places_lookup.html'>places_lookup</a></code>). For all countries use "all" (note &gt; 300 MB file).</p></td>
-    </tr>
-    <tr>
-      <th>code</th>
-      <td><p>A two letter iso country code (use <code><a href='places_lookup.html'>places_lookup</a></code>)</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>For manually downloaded files as either zip or txt.</p></td>
+      <th>file</th>
+      <td><p>A character vector containing a file name with a .zip extension returned by <code><a href='places_download.html'>places_download</a></code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Column names are converted to lower, spaces replaced with underscores and brackets removed. download_date added to table with the users system date.</p>
+    <p>tibble</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>cc</span> <span class='kw'>&lt;-</span> <span class='fu'>places_import</span>(<span class='kw'>code</span> <span class='kw'>=</span> <span class='st'>"AI"</span>)
+<span class='no'>AI</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='places_download.html'>places_download</a></span>(<span class='kw'>code</span> <span class='kw'>=</span> <span class='st'>"AI"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>places_import</span>()
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='places_download.html'>places_download</a></span>(<span class='kw'>code</span> <span class='kw'>=</span> <span class='no'>AI</span>)
+<span class='no'>AI</span> <span class='kw'>&lt;-</span> <span class='fu'>places_import</span>(<span class='no'>res</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -147,8 +137,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

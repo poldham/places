@@ -16,5 +16,5 @@ The geonames country info text file \url{http://download.geonames.org/export/dum
 Column names are converted to lowercase, spaces are replaced with underscores and brackets removed.
 }
 \examples{
-{places_countryinfo()}
+\dontrun{places_countryinfo()}
 }

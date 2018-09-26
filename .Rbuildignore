@@ -7,3 +7,6 @@ ignore
 ^debug\.log
 ^\.travis\.yml
 docs
+^CODE_OF_CONDUCT\.md
+^_pkgdown\.yml$
+^docs$
