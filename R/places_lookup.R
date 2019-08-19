@@ -2,7 +2,7 @@
 #' @description A helper function to navigate two letter country codes. The geonames dump file \code{\link{places_table}} uses two letter country codes (iso2c). The \code{\link{places_table}} includes optional country and region names. If you prefer to look up country codes then use this helper. The function wraps the \code{\link[countrycode]{countrycode}} lookup function for matching single country names or vectors to two letter country codes. Country and region names are not case sensitive.
 #' @param name A country, region or subregion name.
 #' @param type Either "country", "region", "subregion" or "intermediate"
-#' @details The region, subregion and intermediate searches are mainly intdended for use with the allcountries table to group countries by United Nations regions. The function wraps the \href{https://github.com/vincentarelbundock/countrycode}{countrycode} package on CRAN function \code{\link[countrycode]{countrycode}}
+#' @details The region, subregion and intermediate searches are mainly intended for use with the allcountries table to group countries by United Nations regions. The function wraps the \href{https://github.com/vincentarelbundock/countrycode}{countrycode} package on CRAN function \code{\link[countrycode]{countrycode}}
 #' \itemize{ UN Regions
 #' \item Africa
 #' \item Americas
@@ -54,6 +54,8 @@ places_lookup <- function(name = NULL, type = "country"){
   # test if all upper case for country codes, convert to title in cases where TRUE
   # FALSE needs a friendly warning
   # use rlang .data to quiet CMD no visible note
+  # add additional testthat tests
+  # find a way to remove magrittr %$%
   case <- grepl("^[[:upper:]]+$", name)
   if (case[[1]] == FALSE) {
     name <- stringr::str_to_title(name)
@@ -62,13 +64,14 @@ places_lookup <- function(name = NULL, type = "country"){
   res <- purrr::map(name, countrycode::countrycode, "country.name", "iso2c") %>%
     purrr::set_names(., nm = name) %>%
     tibble::as_tibble()
-  # insert warning message here
+  # insert warning message here where using a country code as it produces NA
    }
   if (type == "region") {
       load("data/lookup.rda")
       res <- places::lookup %>%
         dplyr::filter(., un_region_name == name) %$%
         iso
+  # insert message on what this is used for. Filtering the allcountries... not downloading
    }
   if (type == "subregion") {
      load("data/lookup.rda")
@@ -81,6 +84,6 @@ places_lookup <- function(name = NULL, type = "country"){
     res <- places::lookup %>%
     dplyr::filter(., un_intermediate_region_name == name) %$%
       iso
-}
+} # requires an else here
 res
 }

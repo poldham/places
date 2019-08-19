@@ -18,7 +18,7 @@ A vector containing a country name or set of two letter country codes for a regi
 A helper function to navigate two letter country codes. The geonames dump file \code{\link{places_table}} uses two letter country codes (iso2c). The \code{\link{places_table}} includes optional country and region names. If you prefer to look up country codes then use this helper. The function wraps the \code{\link[countrycode]{countrycode}} lookup function for matching single country names or vectors to two letter country codes. Country and region names are not case sensitive.
 }
 \details{
-The region, subregion and intermediate searches are mainly intdended for use with the allcountries table to group countries by United Nations regions. The function wraps the \href{https://github.com/vincentarelbundock/countrycode}{countrycode} package on CRAN function \code{\link[countrycode]{countrycode}}
+The region, subregion and intermediate searches are mainly intended for use with the allcountries table to group countries by United Nations regions. The function wraps the \href{https://github.com/vincentarelbundock/countrycode}{countrycode} package on CRAN function \code{\link[countrycode]{countrycode}}
 \itemize{ UN Regions
 \item Africa
 \item Americas
